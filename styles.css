@@ -1,4 +1,4 @@
- .device {
+.device {
    /* Don't change */
    margin: auto;
    width: 640px;
@@ -7,82 +7,86 @@
    background-color: rgb(243, 240, 240);
    position: relative;
    display: flex;
-   justify-content: center;
-   align-items: center;
-   display: flex;
-   flex-direction: column;
- }
+   flex-direction: column;      
+   justify-content: flex-start; 
+   align-items: center;         
+   padding-top: 20px; 
+}
 
- h1 {
-   /* Don't change */
-   font-size: 28pt;
- }
+.tabHeader {
+   font-weight: bold;
+   margin-top: 10px;
+   font-size: 26pt;
+   width: 100%;        
+}
 
- img {
+img {
    width: 320px;
    height: auto;
- }
+   align-self: center;
+}
 
- .tab2 div {
+.tabcontent {
+   width: 100%;
+   color: black;
+   display: none;
+   padding: 15px;
+   height: auto;
+   position: relative;
+   align-self: flex-start;
+}
+
+.tab2 div {
    position: absolute;
    bottom: 0;
    right: 0;
    padding: 2vw;
- }
+}
 
- .tab5 form {
+.tab5 form {
    text-align: left;
- }
+}
 
- .tab6 {
+.tab6 {
    text-align: center;
- }
+}
 
- /* Navigation Styling */
- .navigation {
+/* Navigation Styling */
+.navigation {
    width: 95%;
    position: absolute;
-   bottom: 15;
+   bottom: 15px;
    display: flex;
    flex-direction: row;
    border-radius: 25px;
    background-color: rgb(250, 248, 248);
-   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
- }
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, 
+               rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
 
- .tablink {
-   background-color: rgba(0, 0, 0, 0);
+.tablink {
+   background-color: transparent;
    color: black;
-   float: left;
    border: none;
    outline: none;
    cursor: pointer;
    padding: 14px 16px;
    font-size: 18px;
    width: 100%;
- }
+}
 
- .tablink:hover {
+.tablink:hover {
    color: #7b70e3;
- }
+}
 
- .tabcontent {
-   color: black;
-   display: none;
-   padding: 15px;
-   height: 88%;
-   text-align: center;
-   position: relative;
- }
-
- .icon {
+.icon {
    font-size: 32px;
- }
+}
 
- .tabText {
+.tabText {
    margin-top: 5px;
- }
+}
 
- * {
+* {
    box-sizing: border-box;
- }
+}
