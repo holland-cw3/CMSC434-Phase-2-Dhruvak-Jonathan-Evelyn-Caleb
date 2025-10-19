@@ -10,10 +10,10 @@
 
 <body>
     <div class="device"> <!-- Don't remove -->
-        <div id="Text" class="tabcontent tab1">
+        <div id="Home" class="tabcontent tab1">
             <h1>- Text Screen -</h1>
             <i class="fi fi-rr-search"></i>
-           
+
         </div>
 
         <div id="LR" class="tabcontent">
@@ -22,14 +22,16 @@
 
         <div id="Colors" class="tabcontent tab3">
             <h1>- Colors Example -</h1>
-          
+
         </div>
 
         <div id="Profile" class="tabcontent tab4">
             <h1>- User Profile -</h1>
             <img onclick="toggleDisplay()" id="profile_notif" src="images/taylor_swift.webp">
             <h2> Taylor Swift </h2>
-            <div id="notif" style="display: none; background-color: pink"><p style="padding: 15px; font-size: 20px">Stream The Life of a Showgirl!!</p></div>
+            <div id="notif" style="display: none; background-color: pink">
+                <p style="padding: 15px; font-size: 20px">Stream The Life of a Showgirl!!</p>
+            </div>
         </div>
 
         <div id="Choices" class="tabcontent tab5">
@@ -55,43 +57,41 @@
 
         </div>
 
-        <div id="ToDo" class="tab6">
+        <div id="ToDo" class="tabcontent tab6">
             <h1>- Shopping List -</h1>
-            <input type = "text" id = "todoInput" placeholder = "New Entry">
-            <span onclick = "newElement()" class = "addButton">Add</span>
+            <input type="text" id="todoInput" placeholder="New Entry">
+            <span onclick="newElement()" class="addButton">Add</span>
 
-            <ul id = "todoList">
-                <li class = "checked">Complete Phase 1.2</li>
+            <ul id="todoList">
+                <li class="checked">Complete Phase 1.2</li>
                 <li>Eat a bowl of babybel cheese</li>
                 <li>Watch My Little Pony: Friendship Is Magic</li>
             </ul>
         </div>
 
         <div class="navigation">
-            <button class="tablink" onclick="openTab('Text', this)" id="defaultOpen">
-                <i class="fa-solid fa-file-lines icon"></i>
+            <button class="tablink" onclick="openTab('Home', this)" id="defaultOpen">
+                <i class="fa-solid fa-house icon"></i>
                 <div class="tabText">Home</div>
             </button>
-            <button class="tablink" onclick="openTab('LR', this)">
-                <i class="fa-solid fa-turn-down icon"></i>
-                <div class="tabText">LR</div>
-            </button>
             <button class="tablink" onclick="openTab('Colors', this)">
-                <i class="fa-solid fa-palette icon"></i>
-                <div class="tabText">Colors</div>
+                <i class="fa-solid fa-utensils icon"></i>
+                <div class="tabText">Recipes</div>
             </button>
             <button class="tablink" onclick="openTab('Profile', this)">
-                <i class="fa-solid fa-user icon"></i>
-                <div class="tabText">Profile</div>
+                <i class="fa-solid fa-cart-shopping icon"></i>
+                <div class="tabText">Shopping</div>
             </button>
             <button class="tablink" onclick="openTab('Choices', this)">
-                <i class="fa-solid fa-list-check icon"></i>
-                <div class="tabText">Choices</div>
+                <i class="fa-solid fa-jar icon"></i>
+                <div class="tabText">Pantry</div>
             </button>
             <button class="tablink" onclick="openTab('ToDo', this)">
-                <i class="fa-solid fa-clipboard-list icon"></i>
-                <div class="tabText">ToDo</div>
+                <i class="fa-solid fa-people-group icon"></i>
+                <div class="tabText">Community</div>
             </button>
+            <div class="tab-bubble"></div>
+
         </div>
     </div>
 

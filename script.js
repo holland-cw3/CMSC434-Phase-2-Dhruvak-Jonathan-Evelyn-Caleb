@@ -8,10 +8,14 @@ function openTab(tabName, elmnt) {
   tablinks = document.getElementsByClassName("tablink");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].style.color = "";
+
   }
 
   document.getElementById(tabName).style.display = "block";
 
-  elmnt.style.color = "blue";
+  elmnt.style.color = "#7b70e3";
+
 }
+
+document.getElementById("defaultOpen").click();
 
