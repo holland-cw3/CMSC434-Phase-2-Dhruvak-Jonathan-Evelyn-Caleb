@@ -9,6 +9,8 @@
    display: flex;
    justify-content: center;
    align-items: center;
+   display: flex;
+   flex-direction: column;
  }
 
  h1 {
@@ -17,11 +19,9 @@
  }
 
  img {
-   width: 170px;
+   width: 320px;
    height: auto;
  }
-
-
 
  .tab2 div {
    position: absolute;
@@ -29,26 +29,6 @@
    right: 0;
    padding: 2vw;
  }
-
- .tab3 {
-   .bar {
-     text-align: center;
-     width: 100%;
-     font-size: 35px;
-     font-weight: bold;
-   }
-
-   .colorBar1 {
-     color: yellow;
-     background-color: black;
-   }
-
-   .colorBar2 {
-     color: purple;
-     background-color: yellow;
-   }
- }
-
 
  .tab5 form {
    text-align: left;
