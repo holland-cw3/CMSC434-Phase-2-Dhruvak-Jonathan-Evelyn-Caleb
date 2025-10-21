@@ -24,40 +24,29 @@
             <h1>- Text in Lower Right -</h1>
         </div>
 
-        <div id="Colors" class="tabcontent tab3">
-            <h1>- Colors Example -</h1>
+        <div id="Recipes" class="tabcontent tab3">
+            <div class="tabHeader">
+                Recipes
+            </div>
+            <div id="search">
+                <input type="text" id="food_name", placeholder="Search" onclick="openKeyboard()">
+                <input type="text" id="allergies", placeholder="Allergies">
+
+            </div>
+            <div id="recipeCards">
+
+            </div>
 
         </div>
 
         <div id="Profile" class="tabcontent tab4">
             <h1>- User Profile -</h1>
-            <img onclick="toggleDisplay()" id="profile_notif" src="images/taylor_swift.webp">
-            <h2> Taylor Swift </h2>
-            <div id="notif" style="display: none; background-color: pink">
-                <p style="padding: 15px; font-size: 20px">Stream The Life of a Showgirl!!</p>
-            </div>
+
         </div>
 
         <div id="Choices" class="tabcontent tab5">
             <h1>- Choices Screen -</h1>
-            <form action="/action_page.php">
-                <p>Book format:</p>
-                <input type="radio" id="paperback" name="bookFormat" value="Paperback">
-                <label for="paperback">Paperback</label><br>
-                <input type="radio" id="hardcover" name="bookFormat" value="Hardcover">
-                <label for="hardcover">Hardcover</label><br>
-                <br>
-                <label for="bookGenre">Book genre:</label>
-                <br>
-                <select name="bookGenre" id="bookGenre">
-                    <option value="fiction">Fiction</option>
-                    <option value="nonfiction">Nonfiction</option>
-                </select>
-                <br><br>
-                <input type="button" value="Get book recommendation" onclick="recommendBook()">
-                <br>
-                <p id="bookRecommendation"></p>
-            </form>
+           
 
         </div>
 
@@ -78,7 +67,7 @@
                 <i class="fa-solid fa-house icon"></i>
                 <div class="tabText">Home</div>
             </button>
-            <button class="tablink" onclick="openTab('Colors', this)">
+            <button class="tablink" onclick="openTab('Recipes', this)">
                 <i class="fa-solid fa-utensils icon"></i>
                 <div class="tabText">Recipes</div>
             </button>

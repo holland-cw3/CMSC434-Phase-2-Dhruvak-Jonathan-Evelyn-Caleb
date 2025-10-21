@@ -17,5 +17,13 @@ function openTab(tabName, elmnt) {
 
 }
 
-document.getElementById("defaultOpen").click();
+function openKeyboard(){
+  document.getElementById('keyboard').style.display = "block";
+}
 
+function closeKeyboard(){
+  document.getElementById('keyboard').style.display = "hidden";
+}
+
+document.getElementById("defaultOpen").click();
+document.getElementById('keyboard').style.display = "hidden";
