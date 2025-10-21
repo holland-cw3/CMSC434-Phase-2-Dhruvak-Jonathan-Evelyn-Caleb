@@ -24,17 +24,17 @@
             <h1>- Text in Lower Right -</h1>
         </div>
 
-        <div id="Recipes" class="tabcontent tab3">
-            <div class="tabHeader">
+        <div id="Recipes" class="tabcontent tab3" >
+            <div class="tabHeader" onclick="closeKeyboard()">
                 Recipes
             </div>
             <div id="search">
-                <input type="text" id="food_name", placeholder="Search" onclick="openKeyboard()">
-                <input type="text" id="allergies", placeholder="Allergies">
+                <input type="text" id="food_name" , placeholder="Search" onclick="openKeyboard()">
+                <input type="text" id="allergies" , placeholder="Allergies">
 
             </div>
-            <div id="recipeCards">
-
+            <div id="recipeCards" onclick="closeKeyboard()">
+                    hi
             </div>
 
         </div>
@@ -46,7 +46,7 @@
 
         <div id="Choices" class="tabcontent tab5">
             <h1>- Choices Screen -</h1>
-           
+
 
         </div>
 
@@ -83,10 +83,12 @@
                 <i class="fa-solid fa-people-group icon"></i>
                 <div class="tabText">Community</div>
             </button>
-            <div class="tab-bubble"></div>
 
         </div>
-    </div>
+        <div id="keyboard">
+            <img src="images/keyboard.png" />
+        </div>
+
 
 </body>
 

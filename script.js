@@ -22,8 +22,7 @@ function openKeyboard(){
 }
 
 function closeKeyboard(){
-  document.getElementById('keyboard').style.display = "hidden";
+  document.getElementById('keyboard').style.display = "none";
 }
 
 document.getElementById("defaultOpen").click();
-document.getElementById('keyboard').style.display = "hidden";
