@@ -1,3 +1,7 @@
+* {
+   box-sizing: border-box;
+}
+
 .device {
    /* Don't change */
    margin: auto;
@@ -21,6 +25,7 @@
 }
 
 .logo {
+   /* Don't Change */
    width: 350px;
    height: auto;
    align-self: center;
@@ -29,6 +34,7 @@
 
 
 .tabcontent {
+   /* Don't Change */
    width: 100%;
    color: black;
    display: none;
@@ -39,10 +45,10 @@
    overflow: auto;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
+   /* Don't Change */
    display: none;
 }
-
 
 
 /* Navigation Styling */
@@ -73,6 +79,7 @@
    color: #7b70e3;
 }
 
+
 .icon {
    font-size: 32px;
 }
@@ -81,11 +88,7 @@
    margin-top: 5px;
 }
 
-* {
-   box-sizing: border-box;
-}
-
-
+/* Keyboard Stuff */
 #keyboard {
    position: absolute;
    display: none;
@@ -95,6 +98,8 @@
 #keyboard img {
    width: 640px;
 }
+
+/* Recipe Search Tab */
 
 #recipeCards {
    min-height: 90vh;
@@ -125,30 +130,9 @@
    height: 50px;
 }
 
-
-
-
-.img {
+.recipe-img2 {
    width: 275px;
    border-radius: 8px 0 0 8px;
-
-}
-
-input {
-   margin-top: 1vh;
-   margin-bottom: 1vh;
-   padding: 18px;
-   font-size: 20px;
-   border: 1px solid rgb(183, 180, 180);
-   border-radius: 5px;
-   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-}
-
-input:focus{
-      border: 2px solid #7469de;
-      outline: none;
-
 }
 
 .recipe-content {
@@ -160,18 +144,6 @@ input:focus{
    flex: 1;
 }
 
-.btn {
-   border-radius: 5px;
-   background-color: #7469de;
-   border: 1px solid rgb(120, 110, 217);
-
-   box-shadow: rgba(0, 0, 0, 0.7) 2.4px 2.4px 3.2px;
-   padding: 10px;
-   align-self: flex-end;
-   font-size: 16px;
-   font-weight: bold;
-   color: white;
-}
 
 .info-item {
    display: flex;
@@ -207,7 +179,37 @@ input:focus{
    transform: scale(1.2);
 }
 
-.notfound{
+/* Input Fields */
+
+input {
+   margin-top: 1vh;
+   margin-bottom: 1vh;
+   padding: 18px;
+   font-size: 20px;
+   border: 1px solid rgb(183, 180, 180);
+   border-radius: 5px;
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+input:focus {
+   border: 2px solid #7469de;
+   outline: none;
+}
+
+.btn {
+   border-radius: 5px;
+   background-color: #7469de;
+   border: 1px solid rgb(120, 110, 217);
+   box-shadow: rgba(0, 0, 0, 0.7) 2.4px 2.4px 3.2px;
+   padding: 10px;
+   align-self: flex-end;
+   font-size: 16px;
+   font-weight: bold;
+   color: white;
+}
+
+.notfound {
    color: #333;
    text-align: center;
 }

@@ -84,7 +84,7 @@ function recipeCard(name, ingredients, time, difficulty, src, index) {
     <div class='recipe-img'>
      <img 
       src="${src}"
-      class="img" 
+      class="recipe-img2" 
       alt="Baked Chicken Parmesan"
     >
     </div>
