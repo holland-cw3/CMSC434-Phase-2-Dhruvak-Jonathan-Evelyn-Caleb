@@ -10,7 +10,7 @@
 
 <body>
     <div class="device"> <!-- Don't remove -->
-        <img src="images/kitchen Kompanion logo.png">
+        <img src="images/kitchen Kompanion logo.png" class="logo">
 
         <div id="Home" class="tabcontent">
             <div class="tabHeader">
@@ -24,17 +24,15 @@
             <h1>- Text in Lower Right -</h1>
         </div>
 
-        <div id="Recipes" class="tabcontent tab3" >
+        <div id="Recipes" class="tabcontent tab3">
             <div class="tabHeader" onclick="closeKeyboard()">
                 Recipes
             </div>
             <div id="search">
-                <input type="text" id="food_name" , placeholder="Search" onclick="openKeyboard()">
-                <input type="text" id="allergies" , placeholder="Allergies">
-
+                <input type="text" id="recipeSearch" , placeholder="Search" onclick="openKeyboard()">
             </div>
             <div id="recipeCards" onclick="closeKeyboard()">
-                    hi
+
             </div>
 
         </div>
@@ -64,8 +62,8 @@
 
         <div class="navigation">
             <button class="tablink" onclick="openTab('Home', this)" id="defaultOpen">
-                <i class="fa-solid fa-house icon"></i>
-                <div class="tabText">Home</div>
+                <i class="fa-solid fa-lightbulb icon"></i>
+                <div class="tabText">Insights</div>
             </button>
             <button class="tablink" onclick="openTab('Recipes', this)">
                 <i class="fa-solid fa-utensils icon"></i>
@@ -93,3 +91,4 @@
 </body>
 
 </html>
+
