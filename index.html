@@ -42,9 +42,11 @@
 
         </div>
 
-        <div id="Choices" class="tabcontent tab5">
-            <h1>- Choices Screen -</h1>
-
+        <div id="Pantry" class="tabcontent tab5">
+            <div class="tabHeader" onclick="closeKeyboard()">
+                Pantry
+            </div>
+            <div id="ingredientCards"></div>
 
         </div>
 
@@ -73,7 +75,7 @@
                 <i class="fa-solid fa-cart-shopping icon"></i>
                 <div class="tabText">Shopping</div>
             </button>
-            <button class="tablink" onclick="openTab('Choices', this)">
+            <button class="tablink" onclick="openTab('Pantry', this)">
                 <i class="fa-solid fa-jar icon"></i>
                 <div class="tabText">Pantry</div>
             </button>

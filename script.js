@@ -145,3 +145,59 @@ inputField.addEventListener("keydown", (event) => {
     closeKeyboard()
   }
 });
+
+// ------------- Pantry Ingredients ------------- //
+ingredients = [
+  {
+    "name": "Chicken",
+    "expiration": "11/27/2025",
+    "amount": "2 pounds",
+    "img_src": "images/recipes/baked-chicken-parmesan-24.jpg"
+  },
+  {
+    "name": "Tomato Sauce",
+    "expiration": "5/1/2026",
+    "amount": "1 jar",
+    "img_src": "images/recipes/baked-chicken-parmesan-24.jpg"
+  },
+  {
+    "name": "Spaghetti",
+    "expiration": "1/1/2028",
+    "amount": "2 boxes",
+    "img_src": "images/recipes/baked-chicken-parmesan-24.jpg"
+  },
+  {
+    "name": "Parmesean",
+    "expiration": "12/31/2025",
+    "amount": "1 Cup",
+    "img_src": "images/recipes/baked-chicken-parmesan-24.jpg"
+  },
+]
+
+function ingredientCard(name, expiration, amount, src, index) {
+  return `
+    <div class="recipe-card">
+      <div class='recipe-img'>
+        <img src="${src}" class="recipe-img2" alt="Baked Chicken Parmesan">
+      </div>
+      <div class="recipe-content">
+        <h3 class='recipe-header'>${name} <i class="fas fa-heart recipe-heart" onclick="likeRecipe(${index})" id='heart'></i></h3>
+        <div class="recipe-info">
+          <div class="info-item">
+            <p>Expiration: </p> ${expiration}
+          </div>
+          <div class="info-item">
+            <p>Amount: </p> ${amount}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+let ingredientCards = ``;
+for (let i = 0; i < ingredients.length; i++) {
+  ingredientCards += ingredientCard(ingredients[i].name, ingredients[i].expiration, ingredients[i].amount, ingredients[i].img_src, i)
+}
+
+document.getElementById("ingredientCards").innerHTML = ingredientCards;

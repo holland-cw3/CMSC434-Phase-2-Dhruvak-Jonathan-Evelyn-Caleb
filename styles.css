@@ -8,7 +8,8 @@
    width: 640px;
    height: 960px;
    overflow: hidden;
-   background-color: rgb(243, 240, 240);
+   background-color: 88B4BF;
+   /*background-color: rgb(243, 240, 240);*/
    position: relative;
    display: flex;
    flex-direction: column;
