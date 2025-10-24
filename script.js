@@ -24,8 +24,8 @@ document.getElementById("defaultOpen").click();
 // ------------- Recipe Search ------------- //
 recipes = [
   {
-    "name": "Chicken Parmesean",
-    "ingredients": ["Chicken", "Tomato Sauce", "Spaghetti", "Parmesean"],
+    "name": "Chicken Parmesan",
+    "ingredients": ["Chicken", "Tomato Sauce", "Spaghetti", "Parmesan"],
     "time": "40 min",
     "difficulty": "Easy",
     "img_src": "images/recipes/baked-chicken-parmesan-24.jpg"
@@ -216,7 +216,7 @@ ingredients = [
     "amount": "2 boxes"
   },
   {
-    "name": "Parmesean",
+    "name": "Parmesan",
     "expiration": "12/31/2025",
     "amount": "1 Cup"
   },
