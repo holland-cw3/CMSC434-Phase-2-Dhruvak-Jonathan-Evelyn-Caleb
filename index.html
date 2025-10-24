@@ -5,19 +5,66 @@
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
 </head>
 
 <body>
     <div class="device"> <!-- Don't remove -->
         <img src="images/kitchen Kompanion logo.png" class="logo">
 
-        <div id="Home" class="tabcontent">
-            <div class="tabHeader">
-                Text Screen
-            </div>
-
-
+        <div id="Insights" class="tabcontent">
+            <header class="insights-header">
+                <h1 class="insights-title">Insights</h1>
+              </header>
+              
+              <section class="insights-grid" id="insightsGrid" aria-label="Highlights">
+                <article class="insight-card">
+                  <div class="insight-card-head">
+                    <h2 class="insight-card-title">Recipes</h2>
+                  </div>
+                  <div class="insight-card-body">
+                    <p class="insight-card-highlight" id="insightRecipes"></p>
+                  </div>
+                  <div class="insight-card-footer">
+                    <button class="insight-card-link" data-jumptab="Recipes" type="button">Open</button>
+                  </div>
+                </article>
+              
+                <article class="insight-card">
+                  <div class="insight-card-head">
+                    <h2 class="insight-card-title">Shopping</h2>
+                  </div>
+                  <div class="insight-card-body">
+                    <p class="insight-card-highlight" id="insightShopping"></p>
+                  </div>
+                  <div class="insight-card-footer">
+                    <button class="insight-card-link" data-jumptab="ToDo" type="button">Open</button>
+                  </div>
+                </article>
+              
+                <article class="insight-card">
+                  <div class="insight-card-head">
+                    <h2 class="insight-card-title">Pantry</h2>
+                  </div>
+                  <div class="insight-card-body">
+                    <p class="insight-card-highlight" id="insightPantry"></p>
+                  </div>
+                  <div class="insight-card-footer">
+                    <button class="insight-card-link" data-jumptab="Pantry" type="button">Open</button>
+                  </div>
+                </article>
+              
+                <article class="insight-card">
+                  <div class="insight-card-head">
+                    <h2 class="insight-card-title">Community</h2>
+                  </div>
+                  <div class="insight-card-body">
+                    <p class="insight-card-highlight" id="insightCommunity">Coming soon!!</p>
+                  </div>
+                  <div class="insight-card-footer">
+                    <button class="insight-card-link" data-jumptab="Community" type="button">Open</button>
+                  </div>
+                </article>
+              </section>              
         </div>
 
         <div id="LR" class="tabcontent">
@@ -62,8 +109,12 @@
             </ul>
         </div>
 
+        <div id="Community" class="tabcontent tab4">
+            <h1>Coming soon!!</h1>
+        </div>
+
         <div class="navigation">
-            <button class="tablink" onclick="openTab('Home', this)" id="defaultOpen">
+            <button class="tablink" onclick="openTab('Insights', this)" id="defaultOpen">
                 <i class="fa-solid fa-lightbulb icon"></i>
                 <div class="tabText">Insights</div>
             </button>
@@ -79,7 +130,7 @@
                 <i class="fa-solid fa-jar icon"></i>
                 <div class="tabText">Pantry</div>
             </button>
-            <button class="tablink" onclick="openTab('', this)">
+            <button class="tablink" onclick="openTab('Community', this)">
                 <i class="fa-solid fa-people-group icon"></i>
                 <div class="tabText">Community</div>
             </button>
@@ -88,7 +139,6 @@
         <div id="keyboard">
             <img src="images/keyboard.png" />
         </div>
-
 
 </body>
 

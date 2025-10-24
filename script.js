@@ -246,3 +246,86 @@ for (let i = 0; i < ingredients.length; i++) {
 }
 
 document.getElementById("ingredientCards").innerHTML = ingredientCards;
+
+// ------------- Insights ------------- //
+
+function updateInsights() {
+  const recipeTitle =
+    document.querySelector('#recipeCards .title, #recipeCards h3, #recipeCards .recipe-title');
+  const insightRecipes = document.getElementById('insightRecipes');
+  if (insightRecipes) {
+    insightRecipes.textContent = recipeTitle && recipeTitle.textContent.trim()
+      ? `Top Recipe: ${recipeTitle.textContent.trim()}`
+      : 'Top Recipe: None found :(';
+  }
+
+  const insightShopping = document.getElementById('insightShopping');
+  if (insightShopping) {
+    const li = document.querySelector('#todoList li:not(.checked)');
+    let text = '';
+    if (li) {
+      let node = li.firstChild;
+      while (node && !node.textContent.trim()) {
+        node = node.nextSibling;
+      }
+      if (node) text = node.textContent.trim();
+    }
+    insightShopping.textContent = text
+      ? `Next Item: ${text}`
+      : 'Next Item: Add something to your list';
+  }
+
+  const insightPantry = document.getElementById('insightPantry');
+  if (insightPantry) {
+    const arr = Array.isArray(window.ingredients) ? window.ingredients : [];
+    let soonestItem = null;
+    let soonestDate = null;
+
+    for (let i = 0; i < arr.length; i++) {
+      const it = arr[i];
+      if (!it || !it.expiration) continue;
+      const d = new Date(it.expiration);
+      if (isNaN(d)) continue;
+      if (soonestDate === null || d < soonestDate) {
+        soonestDate = d;
+        soonestItem = it;
+      }
+    }
+
+    if (soonestItem) {
+      insightPantry.textContent =
+        `Expiring Next: ${soonestItem.amount} of ${soonestItem.name} on ${soonestItem.expiration}`;
+    } else {
+      insightPantry.textContent = 'Expiring Next: Nothing :)';
+    }
+  }
+}
+
+function linkInsights() {
+  document.querySelectorAll('.insight-card-link').forEach(button => {
+    button.addEventListener('click', () => {
+      const tab = button.getAttribute('data-jumptab');
+      if (typeof openTab === 'function' && tab) {
+        openTab(tab);
+      }
+    });
+  });
+}
+
+// Run once on page load
+document.addEventListener('DOMContentLoaded', () => {
+  updateInsights();
+  linkInsights();
+});
+
+// Refresh when the user navigates back to insights
+document.addEventListener('click', e => {
+  const el = e.target.closest('button, [data-tab]');
+  if (!el) return;
+  const goesToInsights =
+    (el.getAttribute && el.getAttribute('data-tab') === 'Insights') ||
+    /Insights/i.test(el.textContent || '');
+  if (goesToInsights) {
+    setTimeout(updateInsights, 0);
+  }
+});

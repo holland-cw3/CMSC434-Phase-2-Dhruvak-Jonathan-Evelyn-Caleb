@@ -100,6 +100,55 @@
    width: 640px;
 }
 
+/* Insights */
+
+.insights-header {
+   padding: 12px 16px 4px;
+}
+
+.insights-title {
+   margin: 0;
+}
+ 
+.insights-grid {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: 12px;
+   padding: 12px 16px 24px;
+}
+ 
+.insight-card {
+   background: white;
+   border: 1px solid black;
+   border-radius: 12px;
+   display: flex;
+   flex-direction: column;
+}
+ 
+.insight-card-head {
+   padding: 10px 12px 0;
+}
+
+.insight-card-title, .insight-card-highlight {
+   margin: 0;
+}
+ 
+.insight-card-body {
+   padding: 6px 12px 8px;
+}
+ 
+.insight-card-footer {
+   padding: 8px 12px 12px;
+   margin-top: auto;
+}
+ 
+.insight-card-link {
+   width: 100%;
+   border: 1px solid black;
+   border-radius: 10px;
+   padding: 8px 10px;
+}
+
 /* Ingredients */
 
 #ingredientCards {
