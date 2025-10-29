@@ -1,146 +1,111 @@
 <html lang=en>
 
 <head>
-    <title>434 Phase 2.1 - Dhruvak, Caleb, Evelyn, Jonathan</title>
-    <script src="script.js" defer></script>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <title>434 Phase 2.1 - Dhruvak, Caleb, Evelyn, Jonathan</title>
+  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 
 <body>
-    <div class="device"> <!-- Don't remove -->
-        <img src="images/kitchen Kompanion logo.png" class="logo">
+  <div class="device"> <!-- Don't remove -->
+    <div class="header">
+      <img src="images/kitchen Kompanion logo.png" class="logo">
+    </div>
 
-        <div id="Insights" class="tabcontent">
-            <header class="insights-header">
-                <h1 class="insights-title">Insights</h1>
-              </header>
-              
-              <section class="insights-grid" id="insightsGrid" aria-label="Highlights">
-                <article class="insight-card">
-                  <div class="insight-card-head">
-                    <h2 class="insight-card-title">Recipes</h2>
-                  </div>
-                  <div class="insight-card-body">
-                    <p class="insight-card-highlight" id="insightRecipes"></p>
-                  </div>
-                  <div class="insight-card-footer">
-                    <button class="insight-card-link" data-jumptab="Recipes" type="button">Open</button>
-                  </div>
-                </article>
-              
-                <article class="insight-card">
-                  <div class="insight-card-head">
-                    <h2 class="insight-card-title">Shopping</h2>
-                  </div>
-                  <div class="insight-card-body">
-                    <p class="insight-card-highlight" id="insightShopping"></p>
-                  </div>
-                  <div class="insight-card-footer">
-                    <button class="insight-card-link" data-jumptab="ToDo" type="button">Open</button>
-                  </div>
-                </article>
-              
-                <article class="insight-card">
-                  <div class="insight-card-head">
-                    <h2 class="insight-card-title">Pantry</h2>
-                  </div>
-                  <div class="insight-card-body">
-                    <p class="insight-card-highlight" id="insightPantry"></p>
-                  </div>
-                  <div class="insight-card-footer">
-                    <button class="insight-card-link" data-jumptab="Pantry" type="button">Open</button>
-                  </div>
-                </article>
-              
-                <article class="insight-card">
-                  <div class="insight-card-head">
-                    <h2 class="insight-card-title">Community</h2>
-                  </div>
-                  <div class="insight-card-body">
-                    <p class="insight-card-highlight" id="insightCommunity">Coming soon!!</p>
-                  </div>
-                  <div class="insight-card-footer">
-                    <button class="insight-card-link" data-jumptab="Community" type="button">Open</button>
-                  </div>
-                </article>
-              </section>              
-        </div>
 
-        <div id="LR" class="tabcontent">
-            <h1>- Text in Lower Right -</h1>
-        </div>
 
-        <div id="Recipes" class="tabcontent tab3">
-            <div class="tabHeader" onclick="closeKeyboard()">
-                Recipes
-            </div>
-            <div id="search">
-                <input type="text" id="recipeSearch" , placeholder="Search" onclick="openKeyboard()">
-            </div>
-            <div id="recipeCards" onclick="closeKeyboard()">
+    <div id="Recipes" class="tabcontent tab3">
+      <div class="tabHeader" onclick="closeKeyboard()">
+        Recipes
+      </div>
+      <div id="search">
+        <input type="text" id="recipeSearch" , placeholder="Search" onclick="openKeyboard()">
+      </div>
+      <div id="recipeCards" onclick="closeKeyboard()">
 
-            </div>
+      </div>
 
-        </div>
+    </div>
 
-        <div id="Profile" class="tabcontent tab4">
-            <h1>- User Profile -</h1>
+    <div id="focusedRecipe" class="tabcontent">
+      <div id="currentRecipe">
 
-        </div>
+      </div>
+    </div>
 
-        <div id="Pantry" class="tabcontent tab5">
-            <div class="tabHeader" onclick="closeKeyboard()">
-                Pantry
-            </div>
-            <div id="ingredientCards"></div>
+    <div id="Pantry" class="tabcontent tab5">
+      <div class="tabHeader" onclick="closeKeyboard()">
+        Pantry
+      </div>
+      <div id="ingredientCards"></div>
 
-        </div>
+    </div>
 
-        <div id="ToDo" class="tabcontent tab6">
-            <h1>Shopping List</h1>
-            <input type="text" id="todoInput" placeholder="New Entry">
-            <span onclick="newElement()" class="addButton">Add</span>
+    <div id="ShoppingList" class="tabcontent tab6">
+      <h1>Shopping List</h1>
+      <div class="ShoppingListInput">
+        <input type="text" id="todoInput" placeholder="New Entry">
+        <div onclick="newElement()" class="addButton">Add</div>
+      </div>
 
-            <ul id="todoList">
-                <li class="checked">Complete Phase 2 Checkpoint</li>
-                <li>Buy a bowl of babybel cheese</li>
-                <li>buy a bag of doritos to eat while watching My Little Pony: Friendship Is Magic</li>
-            </ul>
-        </div>
+      <ul id="todoList">
+        <li>
+          Milk
+          <div class="qty-controls">
+            <div class="qty">1</div>
 
-        <div id="Community" class="tabcontent tab4">
-            <h1>Coming soon!!</h1>
-        </div>
+            <i class="fas fa-minus icon-pm" onclick="changeQty(this, -1)"></i>
+            <i class="fas fa-plus icon-pm" onclick="changeQty(this, 1)"></i>
+          </div>
+        </li>
+        <li>
+          Cheese
+          <div class="qty-controls">
+            <div class="qty">1</div>
+            <i class="fas fa-minus icon-pm" onclick="changeQty(this, -1)"></i>
+            <i class="fas fa-plus icon-pm" onclick="changeQty(this, 1)"></i>
+          </div>
+        </li>
+      </ul>
+    </div>
 
-        <div class="navigation">
-            <button class="tablink" onclick="openTab('Insights', this)" id="defaultOpen">
-                <i class="fa-solid fa-lightbulb icon"></i>
-                <div class="tabText">Insights</div>
-            </button>
-            <button class="tablink" onclick="openTab('Recipes', this)">
-                <i class="fa-solid fa-utensils icon"></i>
-                <div class="tabText">Recipes</div>
-            </button>
-            <button class="tablink" onclick="openTab('ToDo', this)">
-                <i class="fa-solid fa-cart-shopping icon"></i>
-                <div class="tabText">Shopping</div>
-            </button>
-            <button class="tablink" onclick="openTab('Pantry', this)">
-                <i class="fa-solid fa-jar icon"></i>
-                <div class="tabText">Pantry</div>
-            </button>
-            <button class="tablink" onclick="openTab('Community', this)">
-                <i class="fa-solid fa-people-group icon"></i>
-                <div class="tabText">Community</div>
-            </button>
+    <div id="Community" class="tabcontent tab4">
+      <h1>Coming soon!!</h1>
+    </div>
 
-        </div>
-        <div id="keyboard">
-            <img src="images/keyboard.png" />
-        </div>
+
+    <div id="Profile" class="tabcontent tab4">
+      <h1>User Profile</h1>
+    </div>
+
+    <div class="navigation">
+      <button class="tablink" onclick="openTab('Recipes', this)">
+        <i class="fa-solid fa-utensils icon"></i>
+        <div class="tabText">Recipes</div>
+      </button>
+      <button class="tablink" onclick="openTab('ShoppingList', this)">
+        <i class="fa-solid fa-cart-shopping icon"></i>
+        <div class="tabText">Shopping</div>
+      </button>
+      <button class="tablink" onclick="openTab('Pantry', this)">
+        <i class="fa-solid fa-jar icon"></i>
+        <div class="tabText">Pantry</div>
+      </button>
+      <button class="tablink" onclick="openTab('Community', this)">
+        <i class="fa-solid fa-people-group icon"></i>
+        <div class="tabText">Community</div>
+      </button>
+      <button class="tablink" onclick="openTab('Profile', this)" id="defaultOpen">
+        <i class="fa-solid fa-user icon"></i>
+        <div class="tabText">Profile</div>
+      </button>
+
+    </div>
+    <div id="keyboard">
+      <img src="images/keyboard.png" />
+    </div>
 
 </body>
 
 </html>
-

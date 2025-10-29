@@ -68,10 +68,9 @@ function recipeCard(name, ingredients, time, difficulty, src, index) {
   ingredients = ingredients.length >= 3 ? ingredients.slice(0, 3).join(', ') + '...' : ingredients = ingredients.join(', '); 
 
   return `
-    <div class="recipe-card">
-      <div class='recipe-img'>
-        <img src="${src}" class="recipe-img2" alt="Baked Chicken Parmesan">
-      </div>
+    <div class="recipe-card" id=${index}>
+      <div class="recipe-img" style="background-image: url('${src}');"></div>
+
       <div class="recipe-content">
         <h3 class='recipe-header'>${name} <i class="fas fa-heart recipe-heart" onclick="likeRecipe(${index})" id='heart'></i></h3>
         <div class="recipe-info">
@@ -82,11 +81,29 @@ function recipeCard(name, ingredients, time, difficulty, src, index) {
             <i class="fas fa-clock recipe-icon"></i> ${time} (${difficulty})
           </div>
         </div>
-        <button class="btn">See Recipe</button>
+        <button class="btn" onclick="focusedRecipe(${index})">See Recipe</button>
       </div>
     </div>
   `;
 }
+
+function focusedRecipe(index) {
+  const recipe = recipes[index];
+
+  document.getElementById("currentRecipe").innerHTML = `
+    <div class="focused-recipe-card">
+      <h1>${recipe.name}</h1>
+      <div class="focusedRecipe-img" style="background-image: url('${recipe.img_src}');"></div>
+      <p><strong>Ingredients:</strong> ${recipe.ingredients.join(', ')}</p>
+      <p><strong>Time:</strong> ${recipe.time}</p>
+      <p><strong>Difficulty:</strong> ${recipe.difficulty}</p>
+      <button class="btn" onclick="openTab('Recipes')">Back</button>
+    </div>
+  `;
+
+  openTab('focusedRecipe');
+}
+
 
 
 let recipeCards = ``;
@@ -146,58 +163,37 @@ inputField.addEventListener("keydown", (event) => {
   }
 });
 
-// --- To Do List --- //
-var myNodelist = document.getElementsByTagName("LI");
-var j;
-for (j = 0; j < myNodelist.length; j++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[j].appendChild(span);
-}
+// --- Shopping List --- //
 
-var close = document.getElementsByClassName("close");
-var j;
-for (j = 0; j < close.length; j++) {
-  close[j].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
+function changeQty(icon, delta) {
+  const qtyDiv = icon.parentElement.querySelector('.qty');
+  let qty = parseInt(qtyDiv.textContent);
+  qty += delta;
+  if (qty < 1) qty = 1;
+  qtyDiv.textContent = qty;
 }
-
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
-}, false);
 
 function newElement() {
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("todoInput").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
-  if (inputValue === '') {
-    alert("You must write something!");
-  } else {
-    document.getElementById("todoList").appendChild(li);
-  }
-  document.getElementById("todoInput").value = "";
+  const input = document.getElementById("todoInput");
+  const value = input.value.trim();
+  if (!value) return;
 
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
-
-  for (j = 0; j < close.length; j++) {
-    close[j].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
-  }
+  const li = document.createElement("li");
+  li.innerHTML = `
+    ${value}
+    <div class="qty-controls">
+      <div class="qty">1</div>
+      <i class="fas fa-minus icon-pm" onclick="changeQty(this, -1)"></i>
+      <i class="fas fa-plus icon-pm" onclick="changeQty(this, 1)"></i>
+    </div>
+  `;
+  document.getElementById("todoList").appendChild(li);
+  input.value = "";
 }
+
+
+
+
 // ------------- Pantry Ingredients ------------- //
 ingredients = [
   {
