@@ -193,6 +193,12 @@ body{
    flex: 1;
 }
 
+#currentRecipe{
+   overflow-y: auto;
+   padding-bottom: 10vh;
+
+}
+
 .focusedRecipe-img{
    width: 100%;
    height: 270px;
@@ -203,8 +209,32 @@ body{
 
 
 #currentRecipe .focused-recipe-card{
-   padding: 15px;
+   padding: 22px;
+   background-color: white;
+   min-height: 50vh;
+   border-radius: 8px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+   border: 1px solid #dcdada
 }
+
+#currentRecipe .focused-recipe-card h1{
+   font-size: 35px;
+}
+
+#currentRecipe .focused-recipe-card h2{
+font-size: 30px;
+}
+
+#currentRecipe .focused-recipe-card .focused-ingredients {
+   font-size: 24px;
+}
+
+#currentRecipe .focused-recipe-card .focused-instructions{
+   margin-left: 1vw;
+   font-size: 24px;
+}
+
 
 
 .info-item {
@@ -276,13 +306,13 @@ input:focus {
    text-align: center;
 }
 
-ul {
+/* ul {
   margin-top: 1rem;
   padding: 0;
   margin-left: -5px;
-}
+} */
 
-ul li {
+/* ul li {
   cursor: pointer;
   position: relative;
   padding: 16px 8px 16px 40px;
@@ -316,7 +346,7 @@ ul li.checked::before {
   transform: rotate(45deg);
   height: 15px;
   width: 7px;
-}
+} */
 
 .close {
   position: absolute;
@@ -347,6 +377,20 @@ ul li.checked::before {
 
 
 .ShoppingListInput{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.close-btn{
+   color:#787879;
+   font-size: 24px;
+   border: none;
+   background-color: rgba(0,0,0,0);
+}
+
+.close-bar{
    display: flex;
    flex-direction: row;
    justify-content: space-between;

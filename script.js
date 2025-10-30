@@ -91,13 +91,39 @@ function focusedRecipe(index) {
   const recipe = recipes[index];
 
   document.getElementById("currentRecipe").innerHTML = `
+
     <div class="focused-recipe-card">
-      <h1>${recipe.name}</h1>
+      <div class='close-bar'><h1>${recipe.name}</h1> <button onclick="openTab('Recipes')" class='close-btn'>Close <i class="fas fa-close"></i></button></div>
+    
       <div class="focusedRecipe-img" style="background-image: url('${recipe.img_src}');"></div>
-      <p><strong>Ingredients:</strong> ${recipe.ingredients.join(', ')}</p>
       <p><strong>Time:</strong> ${recipe.time}</p>
       <p><strong>Difficulty:</strong> ${recipe.difficulty}</p>
-      <button class="btn" onclick="openTab('Recipes')">Back</button>
+      <h2>Ingredients</h2>
+      <ul class="focused-ingredients">
+      ${recipe.ingredients.map((e) => `<li>${e}</li>`)}
+      </ul>
+      
+      <h2>Instructions</h2>
+      <p class="focused-instructions">
+
+        rerrrrrrrrrrrrrrr </br>
+
+        rerrrrrrrrrrrrrrr
+
+        rerrrrrrrrrrrrrrr
+
+        rerrrrrrrrrrrrrrr
+
+        rerrrrrrrrrrrrrrr
+      
+      
+      
+      
+      
+      </p>
+     
+      
+
     </div>
   `;
 
