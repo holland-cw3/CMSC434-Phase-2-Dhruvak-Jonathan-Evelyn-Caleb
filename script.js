@@ -169,10 +169,19 @@ function focusedRecipe(index) {
 }
 
 
+let allergies = JSON.parse(localStorage.getItem('allergies') || '[]');
+let diet_rest = localStorage.getItem('dietaryRestrictions') || '';
+
+let filteredRecipes = recipes.filter(recipe => {
+  let hasAllergy = recipe.ingredients.some(ing => allergies.includes(ing.toLowerCase()));
+  if (hasAllergy) return false;
+  if (diet_rest && recipe.dietaryRestrictions !== diet_rest) return false;
+  return true;
+});
 
 let recipeCards = ``;
-for (let i = 0; i < recipes.length; i++) {
-  recipeCards += recipeCard(recipes[i].name, recipes[i].ingredients, recipes[i].time, recipes[i].difficulty, recipes[i].img_src, recipes[i].calories, i)
+for (let i = 0; i < filteredRecipes.length; i++) {
+  recipeCards += recipeCard(filteredRecipes[i].name, filteredRecipes[i].ingredients, filteredRecipes[i].time, filteredRecipes[i].difficulty, filteredRecipes[i].img_src, filteredRecipes[i].calories, i)
 }
 
 document.getElementById("recipeCards").innerHTML = recipeCards;
@@ -183,7 +192,17 @@ const inputField = document.getElementById("recipeSearch");
 inputField.addEventListener("input", (event) => {
   const value = event.target.value.toLowerCase().trim();
 
+  let allergies = JSON.parse(localStorage.getItem('allergies') || '[]');
+  let diet_rest = localStorage.getItem('dietaryRestrictions') || '';
+
   let filteredRecipes = recipes.filter(recipe => {
+    let hasAllergy = recipe.ingredients.some(ing => allergies.includes(ing.toLowerCase()));
+    if (hasAllergy) return false;
+    if (diet_rest && recipe.dietaryRestrictions !== diet_rest) return false;
+    return true;
+  });
+
+  filteredRecipes = filteredRecipes.filter(recipe => {
     const combined = (
       recipe.name + " " +
       recipe.ingredients.join(", ") + " " +
@@ -193,6 +212,8 @@ inputField.addEventListener("input", (event) => {
 
     return combined.includes(value);
   });
+
+  
 
   let recipeCards = "";
   for (let i = 0; i < filteredRecipes.length; i++) {
@@ -221,21 +242,34 @@ filter.addEventListener('change', (event) => {
   let recipeCards = ``;
   let new_recipes = []
 
+  
+  let allergies = JSON.parse(localStorage.getItem('allergies') || '[]');
+  let diet_rest = localStorage.getItem('dietaryRestrictions') || '';
+
+  let filteredRecipes = recipes.filter(recipe => {
+    let hasAllergy = recipe.ingredients.some(ing => allergies.includes(ing.toLowerCase()));
+    if (hasAllergy) return false;
+    if (diet_rest && recipe.dietaryRestrictions !== diet_rest) return false;
+    return true;
+  });
+
   if (selected == 'Diff') {
-    new_recipes = recipes.sort((a, b) => a.difficulty_num - b.difficulty_num);
+    new_recipes = filteredRecipes.sort((a, b) => a.difficulty_num - b.difficulty_num);
   }
   else if (selected == 'Time') {
-    new_recipes = recipes.sort((a, b) => a.time_min - b.time_min);
+    new_recipes = filteredRecipes.sort((a, b) => a.time_min - b.time_min);
   }
   else if (selected == 'Cals') {
-    new_recipes = recipes.sort((a, b) => a.calories - b.calories);
+    new_recipes = filteredRecipes.sort((a, b) => a.calories - b.calories);
   }
   else{
-    new_recipes = recipes
+    new_recipes = filteredRecipes
   }
 
+
+
   for (let i = 0; i < new_recipes.length; i++) {
-    recipeCards += recipeCard(recipes[i].name, recipes[i].ingredients, recipes[i].time, recipes[i].difficulty, recipes[i].img_src, recipes[i].calories, i)
+    recipeCards += recipeCard(new_recipes[i].name, new_recipes[i].ingredients, new_recipes[i].time, new_recipes[i].difficulty, new_recipes[i].img_src, new_recipes[i].calories, i)
   }
   document.getElementById("recipeCards").innerHTML = recipeCards;
 });
