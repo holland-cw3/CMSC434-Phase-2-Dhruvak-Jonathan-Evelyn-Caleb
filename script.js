@@ -28,28 +28,39 @@ recipes = [
     "ingredients": ["Chicken", "Tomato Sauce", "Spaghetti", "Parmesan"],
     "time": "40 min",
     "difficulty": "Easy",
-    "img_src": "images/recipes/baked-chicken-parmesan-24.jpg"
+    "img_src": "images/recipes/baked-chicken-parmesan-24.jpg",
+    "calories": 400,
+    "diet_tags": ["vegan", "gluten_free"],
   },
   {
     "name": "Beef Wellington",
     "ingredients": ["Beef", "Wellington :)"],
     "time": "2 hrs",
     "difficulty": "Hard",
-    "img_src": "images/recipes/beef-wellington.jpg"
+    "img_src": "images/recipes/beef-wellington.jpg",
+    "calories": 200,
+    "diet_tags": ["pescatarian", "halal"],
+
+    
   },
   {
     "name": "Blueberry Smoothie",
     "ingredients": ["Blueberries", "Milk", "Sugar", "Lemon Juice"],
     "time": " 5 min",
     "difficulty": "Easy",
-    "img_src": "images/recipes/blueberry-smth.jpg"
+    "img_src": "images/recipes/blueberry-smth.jpg",
+    "calories": 300,
+    "diet_tags": ["pescatarian", "vegan"],
+
   },
   {
     "name": "Chicken Alfredo",
     "ingredients": ["Chicken", "Fettucine", "Garlic"],
     "time": "1 hr",
     "difficulty": "Medium",
-    "img_src": "images/recipes/alfredo.jpg"
+    "img_src": "images/recipes/alfredo.jpg",
+    "calories": 700,
+    "diet_tags": [],
   },
 ]
 
@@ -64,8 +75,17 @@ function likeRecipe(index) {
   }
 }
 
+function addToShoppingFromRecipe(ingredient, amount) {
+  const shoppingList = JSON.parse(localStorage.getItem("shoppingList")) || [];
+
+  shoppingList.push({ ingredient, amount });
+
+  localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
+}
+
+
 function recipeCard(name, ingredients, time, difficulty, src, index) {
-  ingredients = ingredients.length >= 3 ? ingredients.slice(0, 3).join(', ') + '...' : ingredients = ingredients.join(', '); 
+  ingredients = ingredients.length >= 3 ? ingredients.slice(0, 3).join(', ') + '...' : ingredients = ingredients.join(', ');
 
   return `
     <div class="recipe-card" id=${index}>
@@ -96,30 +116,39 @@ function focusedRecipe(index) {
       <div class='close-bar'><h1>${recipe.name}</h1> <button onclick="openTab('Recipes')" class='close-btn'>Close <i class="fas fa-close"></i></button></div>
     
       <div class="focusedRecipe-img" style="background-image: url('${recipe.img_src}');"></div>
-      <p><strong>Time:</strong> ${recipe.time}</p>
-      <p><strong>Difficulty:</strong> ${recipe.difficulty}</p>
+      <div class="recipe-icons">
+        <div><i class="fas fa-clock recipe-icon"></i> ${recipe.time} - ${recipe.calories} calories</div>
+        <div class="icon-actions"><i class="fas fa-heart recipe-icon" id='heart' onclick="console.log(${index})"></i><i class="fas fa-share-alt recipe-icon"></i></div>
+      </div>
+    
       <h2>Ingredients</h2>
       <ul class="focused-ingredients">
-      ${recipe.ingredients.map((e) => `<li>${e}</li>`)}
+        ${recipe.ingredients.map((e) => {
+          const amount = Math.floor(Math.random() * (16 - 3 + 1)) + 1;
+          return `
+            <div class='recipe-ingredient'>
+              <div>- ${amount} oz ${e}</div>
+              <button class="btn" onclick="addToShoppingFromRecipe('${e}', ${amount})">
+                Add to Cart <i class="fa-solid fa-cart-shopping"></i>
+              </button>
+            </div>
+          `;
+        }).join('')}
       </ul>
+
       
       <h2>Instructions</h2>
       <p class="focused-instructions">
 
-        rerrrrrrrrrrrrrrr </br>
+        Lorem ipsum taco bell orange Lorem ipsum taco bell orangeLorem ipsum taco bell orangeLorem ipsum taco bell orange</br></br>
 
-        rerrrrrrrrrrrrrrr
+        Lorem ipsum taco bell orange Lorem ipsum taco bell orangeLorem ipsum taco bell orangeLorem ipsum taco bell orange</br></br>
 
-        rerrrrrrrrrrrrrrr
+        Lorem ipsum taco bell orange Lorem ipsum taco bell orangeLorem ipsum taco bell orangeLorem ipsum taco bell orange</br></br>
 
-        rerrrrrrrrrrrrrrr
+        Lorem ipsum taco bell orange Lorem ipsum taco bell orangeLorem ipsum taco bell orangeLorem ipsum taco bell orange</br></br>
 
-        rerrrrrrrrrrrrrrr
-      
-      
-      
-      
-      
+        Lorem ipsum taco bell orange Lorem ipsum taco bell orangeLorem ipsum taco bell orangeLorem ipsum taco bell orange ding ding ding</br></br>
       </p>
      
       
@@ -134,7 +163,7 @@ function focusedRecipe(index) {
 
 let recipeCards = ``;
 for (let i = 0; i < recipes.length; i++) {
-  recipeCards += recipeCard(recipes[i].name, recipes[i].ingredients, recipes[i].time, recipes[i].difficulty, recipes[i].img_src,  i)
+  recipeCards += recipeCard(recipes[i].name, recipes[i].ingredients, recipes[i].time, recipes[i].difficulty, recipes[i].img_src, i)
 }
 
 document.getElementById("recipeCards").innerHTML = recipeCards;
@@ -167,7 +196,7 @@ inputField.addEventListener("input", (event) => {
       i
     );
   }
-  if (recipeCards === ""){
+  if (recipeCards === "") {
     recipeCards = "<h3 class='notfound'>No recipes found</h3>"
   }
 

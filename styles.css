@@ -236,7 +236,6 @@ font-size: 30px;
 }
 
 
-
 .info-item {
    display: flex;
    align-items: center;
@@ -276,7 +275,7 @@ font-size: 30px;
 input {
    margin-top: 1vh;
    margin-bottom: 1vh;
-   padding: 18px;
+   padding: 15px;
    font-size: 20px;
    border: 1px solid rgb(183, 180, 180);
    border-radius: 5px;
@@ -284,7 +283,27 @@ input {
       rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
+select {
+   margin-top: 1vh;
+   margin-bottom: 1vh;
+   padding: 15.75px;
+   font-size: 20px;
+   border: 1px solid rgb(183, 180, 180);
+   border-radius: 5px;
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+select option:first-of-type{
+   color: #757575
+}
+
 input:focus {
+   border: 2px solid #7469de;
+   outline: none;
+}
+
+select:focus{
    border: 2px solid #7469de;
    outline: none;
 }
@@ -305,6 +324,45 @@ input:focus {
    color: #333;
    text-align: center;
 }
+
+.recipe-icons{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   color: #787879;
+   font-size: 25px;
+   padding: 15px 5px 15px 5px;
+   align-items: center;
+}
+
+.icon-actions i{
+   margin-left: 15px ;
+}
+
+.fa-heart{
+   color: #787879;
+   cursor: pointer;
+   transition: transform 0.2s ease;
+}
+
+.fa-heart:hover{
+   color: #e74c3c;
+   transform: scale(1.2);
+}
+
+.fa-share-alt:hover{
+   color: #7469de;
+   transform: scale(1.2);
+}
+
+.recipe-ingredient{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 1.5vh;
+}
+
 
 /* ul {
   margin-top: 1rem;
