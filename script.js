@@ -19,8 +19,6 @@ function openTab(tabName, elmnt) {
 document.getElementById("defaultOpen").click();
 
 
-
-
 // ------------- Recipe Search ------------- //
 recipes = [
   {
@@ -72,27 +70,40 @@ recipes = [
 
 // Like a recipe/give a heart
 function likeRecipe(index) {
-
-  if (document.querySelectorAll('#heart')[index].style.color == "red") {
-    document.querySelectorAll('#heart')[index].style.color = "#787879";
-  }
-  else {
-    document.querySelectorAll('#heart')[index].style.color = "red";
-  }
+  document.querySelectorAll('#heart')[index].style.color = document.querySelectorAll('#heart')[index].style.color == "red"? "#787879" : "red"
 }
 
 function addToShoppingFromRecipe(ingredient, amount) {
   const shoppingList = JSON.parse(localStorage.getItem("shoppingList")) || [];
-
   shoppingList.push({ ingredient, amount });
-
   localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
+}
+
+function filterRecipes(recipes) {
+  let allergies = JSON.parse(localStorage.getItem('allergies') || '[]');
+  let diet_rest = localStorage.getItem('dietaryRestrictions') || '';
+
+  let filteredRecipes = recipes.filter(recipe => {
+    let hasAllergy = recipe.ingredients.some(ing => allergies.includes(ing.toLowerCase()));
+    if (hasAllergy) return false;
+    if (diet_rest && recipe.dietaryRestrictions !== diet_rest) return false;
+    return true;
+  });
+
+  return filteredRecipes;
+}
+
+function recipeCardsStr(recipes){
+  let recipeCards = ``;
+  for (let i = 0; i < recipes.length; i++) {
+    recipeCards += recipeCard(recipes[i].name, recipes[i].ingredients, recipes[i].time, recipes[i].difficulty, recipes[i].img_src, recipes[i].calories, i)
+  }
+  return recipeCards
 }
 
 
 function recipeCard(name, ingredients, time, difficulty, src, calories, index) {
   ingredients = ingredients.length >= 3 ? ingredients.slice(0, 3).join(', ') + '...' : ingredients = ingredients.join(', ');
-
   return `
     <div class="recipe-card" id=${index}>
       <div class="recipe-img" style="background-image: url('${src}');"></div>
@@ -123,18 +134,16 @@ function focusedRecipe(index) {
 
     <div class="focused-recipe-card">
       <div class='close-bar'><h1>${recipe.name}</h1> <button onclick="openTab('Recipes')" class='close-btn'>Close <i class="fas fa-close"></i></button></div>
-    
       <div class="focusedRecipe-img" style="background-image: url('${recipe.img_src}');"></div>
       <div class="recipe-icons">
         <div><i class="fas fa-clock recipe-icon"></i> ${recipe.time} - ${recipe.calories} calories</div>
         <div class="icon-actions"><i class="fas fa-heart recipe-icon" id='heart' onclick="console.log(${index})"></i><i class="fas fa-share-alt recipe-icon"></i></div>
       </div>
-    
       <h2>Ingredients</h2>
       <ul class="focused-ingredients">
         ${recipe.ingredients.map((e) => {
-    const amount = Math.floor(Math.random() * (16 - 3 + 1)) + 1;
-    return `
+          const amount = Math.floor(Math.random() * (16 - 3 + 1)) + 1;
+          return `
             <div class='recipe-ingredient'>
               <div>- ${amount} oz ${e}</div>
               <button class="btn" onclick="addToShoppingFromRecipe('${e}', ${amount})">
@@ -142,49 +151,24 @@ function focusedRecipe(index) {
               </button>
             </div>
           `;
-  }).join('')}
+        }).join('')}
       </ul>
-
-      
       <h2>Instructions</h2>
       <p class="focused-instructions">
-
         Lorem ipsum taco bell orange Lorem ipsum taco bell orangeLorem ipsum taco bell orangeLorem ipsum taco bell orange</br></br>
-
         Lorem ipsum taco bell orange Lorem ipsum taco bell orangeLorem ipsum taco bell orangeLorem ipsum taco bell orange</br></br>
-
         Lorem ipsum taco bell orange Lorem ipsum taco bell orangeLorem ipsum taco bell orangeLorem ipsum taco bell orange</br></br>
-
         Lorem ipsum taco bell orange Lorem ipsum taco bell orangeLorem ipsum taco bell orangeLorem ipsum taco bell orange</br></br>
-
         Lorem ipsum taco bell orange Lorem ipsum taco bell orangeLorem ipsum taco bell orangeLorem ipsum taco bell orange ding ding ding</br></br>
       </p>
-     
-      
-
     </div>
   `;
 
   openTab('focusedRecipe');
 }
 
-
-let allergies = JSON.parse(localStorage.getItem('allergies') || '[]');
-let diet_rest = localStorage.getItem('dietaryRestrictions') || '';
-
-let filteredRecipes = recipes.filter(recipe => {
-  let hasAllergy = recipe.ingredients.some(ing => allergies.includes(ing.toLowerCase()));
-  if (hasAllergy) return false;
-  if (diet_rest && recipe.dietaryRestrictions !== diet_rest) return false;
-  return true;
-});
-
-let recipeCards = ``;
-for (let i = 0; i < filteredRecipes.length; i++) {
-  recipeCards += recipeCard(filteredRecipes[i].name, filteredRecipes[i].ingredients, filteredRecipes[i].time, filteredRecipes[i].difficulty, filteredRecipes[i].img_src, filteredRecipes[i].calories, i)
-}
-
-document.getElementById("recipeCards").innerHTML = recipeCards;
+let filteredRecipes = filterRecipes(recipes)
+document.getElementById("recipeCards").innerHTML = recipeCardsStr(filteredRecipes);
 
 // Recipe Filter On Search
 const inputField = document.getElementById("recipeSearch");
@@ -192,15 +176,7 @@ const inputField = document.getElementById("recipeSearch");
 inputField.addEventListener("input", (event) => {
   const value = event.target.value.toLowerCase().trim();
 
-  let allergies = JSON.parse(localStorage.getItem('allergies') || '[]');
-  let diet_rest = localStorage.getItem('dietaryRestrictions') || '';
-
-  let filteredRecipes = recipes.filter(recipe => {
-    let hasAllergy = recipe.ingredients.some(ing => allergies.includes(ing.toLowerCase()));
-    if (hasAllergy) return false;
-    if (diet_rest && recipe.dietaryRestrictions !== diet_rest) return false;
-    return true;
-  });
+  let filteredRecipes = filterRecipes(recipes)
 
   filteredRecipes = filteredRecipes.filter(recipe => {
     const combined = (
@@ -213,20 +189,9 @@ inputField.addEventListener("input", (event) => {
     return combined.includes(value);
   });
 
-  
 
-  let recipeCards = "";
-  for (let i = 0; i < filteredRecipes.length; i++) {
-    recipeCards += recipeCard(
-      filteredRecipes[i].name,
-      filteredRecipes[i].ingredients,
-      filteredRecipes[i].time,
-      filteredRecipes[i].difficulty,
-      filteredRecipes[i].img_src,
-      filteredRecipes[i].calories,
-      i
-    );
-  }
+  let recipeCards = recipeCardsStr(filteredRecipes)
+  
   if (recipeCards === "") {
     recipeCards = "<h3 class='notfound'>No recipes found</h3>"
   }
@@ -238,40 +203,17 @@ const filter = document.getElementById('filter');
 
 filter.addEventListener('change', (event) => {
   const selected = event.target.value;
-  console.log(selected)
   let recipeCards = ``;
   let new_recipes = []
 
-  
-  let allergies = JSON.parse(localStorage.getItem('allergies') || '[]');
-  let diet_rest = localStorage.getItem('dietaryRestrictions') || '';
+  let filteredRecipes = filterRecipes(recipes)
 
-  let filteredRecipes = recipes.filter(recipe => {
-    let hasAllergy = recipe.ingredients.some(ing => allergies.includes(ing.toLowerCase()));
-    if (hasAllergy) return false;
-    if (diet_rest && recipe.dietaryRestrictions !== diet_rest) return false;
-    return true;
-  });
+  if (selected == 'Diff') new_recipes = filteredRecipes.sort((a, b) => a.difficulty_num - b.difficulty_num);
+  else if (selected == 'Time') new_recipes = filteredRecipes.sort((a, b) => a.time_min - b.time_min);
+  else if (selected == 'Cals') new_recipes = filteredRecipes.sort((a, b) => a.calories - b.calories);
+  else new_recipes = filteredRecipes
 
-  if (selected == 'Diff') {
-    new_recipes = filteredRecipes.sort((a, b) => a.difficulty_num - b.difficulty_num);
-  }
-  else if (selected == 'Time') {
-    new_recipes = filteredRecipes.sort((a, b) => a.time_min - b.time_min);
-  }
-  else if (selected == 'Cals') {
-    new_recipes = filteredRecipes.sort((a, b) => a.calories - b.calories);
-  }
-  else{
-    new_recipes = filteredRecipes
-  }
-
-
-
-  for (let i = 0; i < new_recipes.length; i++) {
-    recipeCards += recipeCard(new_recipes[i].name, new_recipes[i].ingredients, new_recipes[i].time, new_recipes[i].difficulty, new_recipes[i].img_src, new_recipes[i].calories, i)
-  }
-  document.getElementById("recipeCards").innerHTML = recipeCards;
+  document.getElementById("recipeCards").innerHTML = recipeCardsStr(new_recipes);
 });
 
 
