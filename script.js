@@ -1,3 +1,108 @@
+// ------------- Profile Settings  ------------- //
+const defaultProfile = {
+  allergies: [],
+  dietaryRestrictions: [],
+  recipeDifficulty: [],
+  pantrySettings: {},
+  shoppingListRecipe: []
+};
+
+function loadProfileSettings() {
+  try {
+    const raw = localStorage.getItem('profileSettings');
+    if (!raw) return { ...defaultProfile };
+
+    const data = JSON.parse(raw) || {};
+
+    const allergies = Array.isArray(data.allergies) ? data.allergies : [];
+
+    const dietaryRestrictions = Array.isArray(data.dietaryRestrictions)
+      ? data.dietaryRestrictions : (typeof data.dietaryRestrictions === 'string' && data.dietaryRestrictions
+          ? [data.dietaryRestrictions] : []);
+
+    const recipeDifficulty = Array.isArray(data.recipeDifficulty) ? data.recipeDifficulty : [];
+
+    return {
+      ...defaultProfile,
+      ...data,
+      allergies,
+      dietaryRestrictions,
+      recipeDifficulty
+    };
+  } catch (e) {
+    return { ...defaultProfile };
+  }
+}
+
+function saveProfileSettings(settings) {
+  const merged = {
+    ...loadProfileSettings(),
+    ...settings
+  };
+
+  localStorage.setItem('profileSettings', JSON.stringify(merged));
+}
+
+function initProfileForm() {
+  const form = document.getElementById('profileForm');
+  if (!form) return;
+
+  const settings = loadProfileSettings();
+  const allergiesInput = document.getElementById('allergiesInput');
+  const dietCheckboxes = form.querySelectorAll('input[name="dietary"]');
+  const diffCheckboxes = form.querySelectorAll('input[name="difficulty"]');
+  const statusEl = document.getElementById('profileSaveStatus');
+
+  if (allergiesInput) {
+    allergiesInput.value = (settings.allergies || []).join('\n');
+  }
+
+  dietCheckboxes.forEach(cb => {
+    cb.checked = settings.dietaryRestrictions.includes(cb.value);
+  });
+
+  diffCheckboxes.forEach(cb => {
+    cb.checked = settings.recipeDifficulty.includes(cb.value);
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const rawAllergies = (allergiesInput.value || '');
+    const allergies = rawAllergies
+      .split(/[\n,]/)
+      .map(v => v.trim())
+      .filter(v => v.length > 0);
+
+    const dietaryRestrictions = Array.from(dietCheckboxes)
+      .filter(cb => cb.checked)
+      .map(cb => cb.value);
+
+    const recipeDifficulty = Array.from(diffCheckboxes)
+      .filter(cb => cb.checked)
+      .map(cb => cb.value);
+
+    saveProfileSettings({
+      allergies,
+      dietaryRestrictions,
+      recipeDifficulty
+    });
+
+    const filtered = filterRecipes(recipes);
+    document.getElementById("recipeCards").innerHTML =
+      filtered.length
+        ? recipeCardsStr(filtered)
+        : "<h3 class='notfound'>No recipes found</h3>";
+
+    if (statusEl) {
+      statusEl.textContent = 'Preferences saved.';
+      setTimeout(() => {
+        statusEl.textContent = '';
+      }, 2000);
+    }
+  });
+}
+
 // ------------- Navigation  ------------- //
 function openTab(tabName, elmnt) {
   var i, tabcontent, tablinks;
@@ -30,18 +135,18 @@ recipes = [
     "difficulty_num": 1,
     "img_src": "images/recipes/baked-chicken-parmesan-24.jpg",
     "calories": 400,
-    "diet_tags": ["vegan", "gluten_free"],
+    "diet_tags": ["gluten_free"],
   },
   {
     "name": "Beef Wellington",
     "ingredients": ["Beef", "Wellington :)"],
     "time": "2 hrs",
     "time_min": 120,
-    "difficulty": "Hard",
+    "difficulty": "Difficult",
     "difficulty_num": 3,
     "img_src": "images/recipes/beef-wellington.jpg",
     "calories": 200,
-    "diet_tags": ["pescatarian", "halal"],
+    "diet_tags": ["gluten_free", "halal"],
   },
   {
     "name": "Blueberry Smoothie",
@@ -52,7 +157,7 @@ recipes = [
     "difficulty_num": 1,
     "img_src": "images/recipes/blueberry-smth.jpg",
     "calories": 300,
-    "diet_tags": ["pescatarian", "vegan"],
+    "diet_tags": ["pescatarian", "vegetarian", "vegan", "gluten_free", "kosher", "halal"],
 
   },
   {
@@ -64,7 +169,7 @@ recipes = [
     "difficulty_num": 2,
     "img_src": "images/recipes/alfredo.jpg",
     "calories": 700,
-    "diet_tags": [],
+    "diet_tags": ["kosher"],
   },
 ]
 
@@ -80,13 +185,25 @@ function addToShoppingFromRecipe(ingredient, amount) {
 }
 
 function filterRecipes(recipes) {
-  let allergies = JSON.parse(localStorage.getItem('allergies') || '[]');
-  let diet_rest = localStorage.getItem('dietaryRestrictions') || '';
+  let settings = loadProfileSettings();
+  let allergies = (settings.allergies || []).map(a => a.toLowerCase());
+  let diet_rest = settings.dietaryRestrictions || [];
+  let allowed_difficulties = settings.recipeDifficulty || [];
 
   let filteredRecipes = recipes.filter(recipe => {
-    let hasAllergy = recipe.ingredients.some(ing => allergies.includes(ing.toLowerCase()));
+    let hasAllergy = recipe.ingredients.some(ing => allergies.includes(String(ing).toLowerCase()));
     if (hasAllergy) return false;
-    if (diet_rest && recipe.dietaryRestrictions !== diet_rest) return false;
+    if (diet_rest.length > 0) {
+      const recipeTags = recipe.diet_tags || [];
+      const matchesDiet = diet_rest.every(tag =>
+        recipeTags.includes(tag)
+      );
+      if (!matchesDiet) return false;
+    }
+    
+    if (allowed_difficulties.length > 0) {
+      if (!allowed_difficulties.includes(recipe.difficulty)) return false;
+    }
     return true;
   });
 
@@ -381,6 +498,7 @@ function linkInsights() {
 document.addEventListener('DOMContentLoaded', () => {
   updateInsights();
   linkInsights();
+  initProfileForm();
 });
 
 // Refresh when the user navigates back to insights

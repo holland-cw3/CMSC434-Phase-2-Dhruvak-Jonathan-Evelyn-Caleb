@@ -84,7 +84,68 @@
 
     <div id="Profile" class="tabcontent tab4">
       <h1>User Profile</h1>
-    </div>
+    
+      <form id="profileForm" class="profile-form">
+        <div class="profile-section">
+          <label for="allergiesInput" class="profile-label">Allergies</label>
+          <p class="profile-help">
+            Add any foods or ingredients you avoid. Use commas or new lines.
+          </p>
+          <textarea id="allergiesInput" class="profile-textarea" placeholder="e.g. peanuts&#10;eggs&#10;shellfish"
+          ></textarea>
+        </div>
+    
+        <div class="profile-section">
+          <div class="profile-label">Dietary restrictions</div>
+          <label class="checkbox-item">
+            <input type="checkbox" name="dietary" value="pescatarian">
+            Pescatarian
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="dietary" value="vegetarian">
+            Vegetarian
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="dietary" value="vegan">
+            Vegan
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="dietary" value="gluten_free">
+            Gluten Free
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="dietary" value="kosher">
+            Kosher
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="dietary" value="halal">
+            Halal
+          </label>
+        </div>
+    
+        <div class="profile-section">
+          <div class="profile-label">Show recipes with difficulty</div>
+          <p class="profile-help">
+            Select all levels you’d like to cook.
+          </p>
+          <label class="checkbox-item">
+            <input type="checkbox" name="difficulty" value="Easy">
+            Easy
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="difficulty" value="Medium">
+            Medium
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="difficulty" value="Difficult">
+            Difficult <!-- By Gracie Abrams -->
+          </label>
+        </div>
+    
+        <button type="submit" class="btn save-btn">Save preferences</button>
+        <div id="profileSaveStatus" class="save-status" aria-live="polite"></div>
+      </form>
+    </div>    
 
     <div class="navigation">
       <button class="tablink" onclick="openTab('Recipes', this)">
