@@ -27,7 +27,9 @@ recipes = [
     "name": "Chicken Parmesan",
     "ingredients": ["Chicken", "Tomato Sauce", "Spaghetti", "Parmesan"],
     "time": "40 min",
+    "time_min": 40,
     "difficulty": "Easy",
+    "difficulty_num": 1,
     "img_src": "images/recipes/baked-chicken-parmesan-24.jpg",
     "calories": 400,
     "diet_tags": ["vegan", "gluten_free"],
@@ -36,18 +38,20 @@ recipes = [
     "name": "Beef Wellington",
     "ingredients": ["Beef", "Wellington :)"],
     "time": "2 hrs",
+    "time_min": 120,
     "difficulty": "Hard",
+    "difficulty_num": 3,
     "img_src": "images/recipes/beef-wellington.jpg",
     "calories": 200,
     "diet_tags": ["pescatarian", "halal"],
-
-    
   },
   {
     "name": "Blueberry Smoothie",
     "ingredients": ["Blueberries", "Milk", "Sugar", "Lemon Juice"],
     "time": " 5 min",
+    "time_min": 5,
     "difficulty": "Easy",
+    "difficulty_num": 1,
     "img_src": "images/recipes/blueberry-smth.jpg",
     "calories": 300,
     "diet_tags": ["pescatarian", "vegan"],
@@ -57,7 +61,9 @@ recipes = [
     "name": "Chicken Alfredo",
     "ingredients": ["Chicken", "Fettucine", "Garlic"],
     "time": "1 hr",
+    "time_min": 60,
     "difficulty": "Medium",
+    "difficulty_num": 2,
     "img_src": "images/recipes/alfredo.jpg",
     "calories": 700,
     "diet_tags": [],
@@ -84,7 +90,7 @@ function addToShoppingFromRecipe(ingredient, amount) {
 }
 
 
-function recipeCard(name, ingredients, time, difficulty, src, index) {
+function recipeCard(name, ingredients, time, difficulty, src, calories, index) {
   ingredients = ingredients.length >= 3 ? ingredients.slice(0, 3).join(', ') + '...' : ingredients = ingredients.join(', ');
 
   return `
@@ -99,6 +105,9 @@ function recipeCard(name, ingredients, time, difficulty, src, index) {
           </div>
           <div class="info-item">
             <i class="fas fa-clock recipe-icon"></i> ${time} (${difficulty})
+          </div>
+          <div class="info-item">
+            <i class="fas fa-bolt recipe-icon"></i> ${calories} Cal.
           </div>
         </div>
         <button class="btn" onclick="focusedRecipe(${index})">See Recipe</button>
@@ -124,8 +133,8 @@ function focusedRecipe(index) {
       <h2>Ingredients</h2>
       <ul class="focused-ingredients">
         ${recipe.ingredients.map((e) => {
-          const amount = Math.floor(Math.random() * (16 - 3 + 1)) + 1;
-          return `
+    const amount = Math.floor(Math.random() * (16 - 3 + 1)) + 1;
+    return `
             <div class='recipe-ingredient'>
               <div>- ${amount} oz ${e}</div>
               <button class="btn" onclick="addToShoppingFromRecipe('${e}', ${amount})">
@@ -133,7 +142,7 @@ function focusedRecipe(index) {
               </button>
             </div>
           `;
-        }).join('')}
+  }).join('')}
       </ul>
 
       
@@ -163,7 +172,7 @@ function focusedRecipe(index) {
 
 let recipeCards = ``;
 for (let i = 0; i < recipes.length; i++) {
-  recipeCards += recipeCard(recipes[i].name, recipes[i].ingredients, recipes[i].time, recipes[i].difficulty, recipes[i].img_src, i)
+  recipeCards += recipeCard(recipes[i].name, recipes[i].ingredients, recipes[i].time, recipes[i].difficulty, recipes[i].img_src, recipes[i].calories, i)
 }
 
 document.getElementById("recipeCards").innerHTML = recipeCards;
@@ -193,6 +202,7 @@ inputField.addEventListener("input", (event) => {
       filteredRecipes[i].time,
       filteredRecipes[i].difficulty,
       filteredRecipes[i].img_src,
+      filteredRecipes[i].calories,
       i
     );
   }
@@ -202,6 +212,34 @@ inputField.addEventListener("input", (event) => {
 
   document.getElementById("recipeCards").innerHTML = recipeCards;
 });
+
+const filter = document.getElementById('filter');
+
+filter.addEventListener('change', (event) => {
+  const selected = event.target.value;
+  console.log(selected)
+  let recipeCards = ``;
+  let new_recipes = []
+
+  if (selected == 'Diff') {
+    new_recipes = recipes.sort((a, b) => a.difficulty_num - b.difficulty_num);
+  }
+  else if (selected == 'Time') {
+    new_recipes = recipes.sort((a, b) => a.time_min - b.time_min);
+  }
+  else if (selected == 'Cals') {
+    new_recipes = recipes.sort((a, b) => a.calories - b.calories);
+  }
+  else{
+    new_recipes = recipes
+  }
+
+  for (let i = 0; i < new_recipes.length; i++) {
+    recipeCards += recipeCard(recipes[i].name, recipes[i].ingredients, recipes[i].time, recipes[i].difficulty, recipes[i].img_src, recipes[i].calories, i)
+  }
+  document.getElementById("recipeCards").innerHTML = recipeCards;
+});
+
 
 // ------------- Fake Keyboard ------------- //
 function openKeyboard() {
