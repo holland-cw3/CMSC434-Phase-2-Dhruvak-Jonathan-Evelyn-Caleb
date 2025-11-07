@@ -542,6 +542,30 @@ function displayIngredients(ingredientsList) {
 
 displayIngredients(ingredients);
 
+// Pantry Search Feature
+const ingredientSearchField = document.getElementById("searchIngredient");
+
+ingredientSearchField.addEventListener("input", (event) => {
+  const value = event.target.value.toLowerCase().trim();
+
+  let filteredIngredients = ingredients.filter(ingredient => {
+    const combined = (
+      ingredient.name + " " +
+      ingredient.amount
+    ).toLowerCase();
+
+    return combined.includes(value);
+  });
+
+  displayIngredients(filteredIngredients);
+});
+
+ingredientSearchField.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    closeKeyboard();
+  }
+});
+
 function showAddIngredientModal() {
   const modal = document.createElement('div');
   modal.innerHTML = `
