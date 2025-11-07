@@ -384,50 +384,259 @@ function newElement() {
 ingredients = [
   {
     "name": "Chicken",
-    "expiration": "11/27/2025",
+    "expiration": new Date('11/27/2025'),
     "amount": "2 pounds"
   },
   {
+    "name": "Grapes",
+    "expiration": new Date('11/7/2025'),
+    "amount": "1"
+  },
+  {
+    "name": "Onion",
+    "expiration": new Date('12/3/2025'),
+    "amount": "1"
+  },
+  {
+    "name": "Eggs",
+    "expiration": new Date('12/10/2025'),
+    "amount": "12"
+  },
+  {
     "name": "Tomato Sauce",
-    "expiration": "5/1/2026",
-    "amount": "1 jar"
+    "expiration": new Date('5/1/2026'),
+    "amount": "1"
+  },
+  {
+    "name": "Milk",
+    "expiration": new Date('11/1/2025'),
+    "amount": "1"
+  },
+  {
+    "name": "Honey Yogurt",
+    "expiration": new Date('11/19/2025'),
+    "amount": "1"
   },
   {
     "name": "Spaghetti",
-    "expiration": "1/1/2028",
+    "expiration": new Date('1/1/2028'),
     "amount": "2 boxes"
   },
   {
+    "name": "Green Salad Mix",
+    "expiration": new Date('12/18/2025'),
+    "amount": "1"
+  },
+  {
+    "name": "Onion and Chive Cream Cheese",
+    "expiration": new Date('12/2/2025'),
+    "amount": "1"
+  },
+  {
     "name": "Parmesan",
-    "expiration": "12/31/2025",
+    "expiration": new Date('12/31/2025'),
     "amount": "1 Cup"
   },
+  {
+    "name": "Coconut Milk",
+    "expiration": new Date('12/1/2026'),
+    "amount": "1"
+  },
+  {
+    "name": "Dots Pretzels",
+    "expiration": new Date('2/16/2026'),
+    "amount": "1"
+  },
+  {
+    "name": "Shin Ramen",
+    "expiration": new Date('3/18/2026'),
+    "amount": "4"
+  }
 ]
 
-function ingredientCard(name, expiration, amount) {
+ingredients.sort((a, b) => a.expiration - b.expiration);
+
+function ingredientCard(name, expiration, amount, index) {
+  const today = new Date();
+  const diffTime = expiration - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // convert ms → days
+
+  let expirationText = "";
+
+  if (diffDays < 0) {
+    expirationText = "<span style='color: red; font-weight: bold;'>Expired</span>";
+  } else if (diffDays === 0) {
+    expirationText = "<span style='color: orange; font-weight: bold;'>Expires today!</span>";
+  } else if (diffDays === 1) {
+    expirationText = "<span style='color: #FEC20C; font-weight: bold;'>1 day left</span>";
+  } else {
+    expirationText = `<span style='color: green; font-weight: bold;'>${diffDays} days left</span>`;
+  }
+
   return `
-    <div class="recipe-card">
-      <div class="recipe-content">
-        <h3 class='recipe-header'>${name}</h3>
-        <div class="ingredient-info">
-          <div class="item">
-            <p>Expiration: ${expiration}</p>
-          </div>
-          <div class="item">
-            <p>Amount: ${amount}</p>
-          </div>
-        </div>
-      </div>
+    <div class="ingredient-card" onclick="showEditIngredientModal(${index})" style="cursor: pointer; position: relative;">
+      <button onclick="event.stopPropagation(); deleteIngredient(${index})" style="position: absolute; top: 10px; right: 10px; background: #f44336; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-weight: bold; font-size: 16px; line-height: 1;">×</button>
+      <h3>${name}</h3>
+      <p>${expirationText}</p>
+      <p>Quantity: ${amount}</p>
     </div>
   `;
 }
 
-let ingredientCards = ``;
-for (let i = 0; i < ingredients.length; i++) {
-  ingredientCards += ingredientCard(ingredients[i].name, ingredients[i].expiration, ingredients[i].amount)
+function displayIngredients(ingredientsList) {
+  let ingredientCards = ``;
+  for (let i = 0; i < ingredientsList.length; i++) {
+    ingredientCards += ingredientCard(
+      ingredientsList[i].name,
+      ingredientsList[i].expiration,
+      ingredientsList[i].amount,
+      i
+    );
+  }
+  document.getElementById("ingredientCards").innerHTML = ingredientCards;
 }
 
-document.getElementById("ingredientCards").innerHTML = ingredientCards;
+displayIngredients(ingredients);
+
+function showAddIngredientModal() {
+  const modal = document.createElement('div');
+  modal.innerHTML = `
+    <div class="ingredient-card-add-edit">
+      <div class="ingredient-card-add-edit-inner">
+        <h3 style="margin-top: 0;">Add New Ingredient</h3>
+        <input type="text" id="modalName" placeholder="Name">
+        <input type="date" id="modalDate">
+        <input type="text" id="modalAmount" placeholder="Amount (e.g., 2 pounds)">
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+          <button id="modalCancel">Cancel</button>
+          <button id="modalSave">Add</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Focus on the name input
+  setTimeout(() => document.getElementById('modalName').focus(), 100);
+  
+  document.getElementById('modalAdd').onclick = function() {
+    const name = document.getElementById('modalName').value.trim();
+    const dateStr = document.getElementById('modalDate').value;
+    const amount = document.getElementById('modalAmount').value.trim();
+    
+    if (!name || !dateStr || !amount) {
+      alert('All fields are required!');
+      return;
+    }
+    
+    ingredients.push({
+      name: name,
+      expiration: new Date(dateStr),
+      amount: amount
+    });
+    
+    ingredients.sort((a, b) => a.expiration - b.expiration);
+    displayIngredients(ingredients);
+    
+    document.body.removeChild(modal);
+  };
+  
+  document.getElementById('modalCancel').onclick = function() {
+    document.body.removeChild(modal);
+  };
+  
+  modal.onclick = function(e) {
+    if (e.target === modal.firstElementChild.parentElement) {
+      document.body.removeChild(modal);
+    }
+  };
+}
+
+function showEditIngredientModal(index) {
+  const ingredient = ingredients[index];
+  
+  const modal = document.createElement('div');
+  modal.innerHTML = `
+    <div class="ingredient-card-add-edit">
+      <div class="ingredient-card-add-edit-inner">
+        <h3 style="margin-top: 0;">Edit Ingredient</h3>
+        <input type="text" id="modalName" placeholder="Name" value="${ingredient.name}">
+        <input type="date" id="modalDate" value="${ingredient.expiration.toISOString().split('T')[0]}">
+        <input type="text" id="modalAmount" placeholder="Amount (e.g., 2 pounds)" value="${ingredient.amount}">
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+          <button id="modalCancel">Cancel</button>  
+          <button id="modalSave">Save</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Focus on the name input
+  setTimeout(() => document.getElementById('modalName').focus(), 100);
+  
+  document.getElementById('modalSave').onclick = function() {
+    const name = document.getElementById('modalName').value.trim();
+    const dateStr = document.getElementById('modalDate').value;
+    const amount = document.getElementById('modalAmount').value.trim();
+    
+    if (!name || !dateStr || !amount) {
+      alert('All fields are required!');
+      return;
+    }
+    
+    ingredients[index] = {
+      name: name,
+      expiration: new Date(dateStr),
+      amount: amount
+    };
+    
+    ingredients.sort((a, b) => a.expiration - b.expiration);
+    displayIngredients(ingredients);
+    
+    document.body.removeChild(modal);
+  };
+  
+  document.getElementById('modalCancel').onclick = function() {
+    document.body.removeChild(modal);
+  };
+  
+  modal.onclick = function(e) {
+    if (e.target === modal.firstElementChild.parentElement) {
+      document.body.removeChild(modal);
+    }
+  };
+}
+
+function deleteIngredient(index) {
+  if (confirm(`Are you sure you want to delete ${ingredients[index].name}?`)) {
+    ingredients.splice(index, 1);
+    displayIngredients(ingredients);
+  }
+}
+
+document.getElementById("addIngredientBtn").addEventListener("click", showAddIngredientModal);
+
+//filtering
+const ingredientFilter = document.getElementById('ingredientFilter');
+ingredientFilter.addEventListener('change', (event) => {
+  const selected = event.target.value;
+  let new_ingredients = [];
+
+  if (selected === 'Expiration') {
+    new_ingredients = ingredients.sort((a, b) => a.expiration - b.expiration);
+  } else if (selected === 'A-Z') {
+    new_ingredients = ingredients.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (selected === 'Quantity') {
+    new_ingredients = ingredients.sort((a, b) => a.amount.localeCompare(b.amount));
+  } else {
+    new_ingredients = ingredients;
+  }
+
+  displayIngredients(new_ingredients);
+});
 
 // ------------- Insights ------------- //
 
