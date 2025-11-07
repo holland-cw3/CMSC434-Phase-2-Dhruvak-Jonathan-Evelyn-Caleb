@@ -226,6 +226,7 @@ function addToShoppingFromRecipe(ingredient, amount) {
   const shoppingList = JSON.parse(localStorage.getItem("shoppingList")) || [];
   shoppingList.push({ ingredient, amount });
   localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
+  renderShoppingList();
 }
 
 function filterRecipes(recipes) {
@@ -395,33 +396,248 @@ inputField.addEventListener("keydown", (event) => {
 
 // --- Shopping List --- //
 
-function changeQty(icon, delta) {
-  const qtyDiv = icon.parentElement.querySelector('.qty');
-  let qty = parseInt(qtyDiv.textContent);
-  qty += delta;
-  if (qty < 1) qty = 1;
-  qtyDiv.textContent = qty;
+let shoppingList = [];
+let itemPurchaseHistory = {};
+let shoppingPresets = {};
+
+// loads all data from local stroage
+function loadAllShoppingData() {
+  // load the main list
+  shoppingList = JSON.parse(localStorage.getItem("shoppingList")) || [];
+  // load purchase history
+  itemPurchaseHistory = JSON.parse(localStorage.getItem("itemPurchaseHistory")) || {};
+  // load presets
+  shoppingPresets = JSON.parse(localStorage.getItem("shoppingPresets")) || {};
+  // initial render
+  renderShoppingList();
+  renderTopItems();
+  updatePresetDropdown();
 }
 
-function newElement() {
+function saveShoppingList() {
+  localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
+}
+
+function renderShoppingList() {
+  
+  const listElement = document.getElementById("todoList");
+  listElement.innerHTML = ""; 
+
+  if (shoppingList.length === 0) {
+    listElement.innerHTML = "<li class='empty-list'>Your shopping list is empty.</li>";
+    return;
+  }
+
+  shoppingList.forEach((item) => {
+    const li = document.createElement("li");
+    li.dataset.id = item.id; // store item ID on the element
+
+    if (item.checked) {
+      li.classList.add("checked");
+    }
+
+    li.innerHTML = `
+      <span class="item-text">${item.text}</span>
+      <div class="qty-controls">
+        <div class="qty">${item.qty}</div>
+        <i class="fas fa-minus icon-pm" onclick="changeQty(this, -1)"></i>
+        <i class="fas fa-plus icon-pm" onclick="changeQty(this, 1)"></i>
+      </div>
+      <span class="close-item" onclick="deleteItem(this)">&times;</span>
+    `;
+    
+    listElement.appendChild(li);
+  });
+}
+
+function newElement(itemName = null) {
   const input = document.getElementById("todoInput");
-  const value = input.value.trim();
-  if (!value) return;
+  const value = (itemName || input.value).trim();
+  
+  if (!value) {
+    if (!itemName) alert("You must write something!");
+    return;
+  }
+  
+  const existingItem = shoppingList.find(item => item.text.toLowerCase() === value.toLowerCase());
+  
+  if (existingItem) {
+    // just increase quantity
+    existingItem.qty += 1;
+  } else {
+    // create new item
+    const newItem = {
+      id: Date.now(),
+      text: value,
+      qty: 1,
+      checked: false
+    };
+    shoppingList.push(newItem);
+  }
 
-  const li = document.createElement("li");
-  li.innerHTML = `
-    ${value}
-    <div class="qty-controls">
-      <div class="qty">1</div>
-      <i class="fas fa-minus icon-pm" onclick="changeQty(this, -1)"></i>
-      <i class="fas fa-plus icon-pm" onclick="changeQty(this, 1)"></i>
-    </div>
-  `;
-  document.getElementById("todoList").appendChild(li);
-  input.value = "";
+  saveShoppingList();
+  renderShoppingList();
+  input.value = ""; 
+}
+
+function changeQty(icon, delta) {
+  const li = icon.closest('li');
+  const id = Number(li.dataset.id);
+  const item = shoppingList.find(i => i.id === id);
+
+  if (item) {
+    item.qty += delta;
+    if (item.qty < 1) {
+      item.qty = 1; 
+    }
+    saveShoppingList();
+    renderShoppingList(); 
+  }
+}
+
+function deleteItem(closeButton) {
+  const li = closeButton.closest('li');
+  const id = Number(li.dataset.id);
+  
+  shoppingList = shoppingList.filter(item => item.id !== id);
+  
+  saveShoppingList();
+  renderShoppingList();
+}
+
+function toggleChecked(li) {
+  const id = Number(li.dataset.id);
+  const item = shoppingList.find(i => i.id === id);
+  
+  if (item) {
+    item.checked = !item.checked;
+    
+    if (item.checked) {
+      updatePurchaseHistory(item.text);
+    }
+
+    saveShoppingList();
+    renderShoppingList();
+  }
+}
+
+document.getElementById('todoList').addEventListener('click', function(ev) {
+  const li = ev.target.closest('li');
+  if (li && !ev.target.closest('.qty-controls') && !ev.target.closest('.close-item')) {
+    toggleChecked(li);
+  }
+});
+
+
+function addToShoppingFromRecipe(ingredient, amount) {
+
+  // check if item already exists
+  const existingItem = shoppingList.find(item => item.text.toLowerCase() === ingredient.toLowerCase());
+  
+  if (existingItem) {
+    existingItem.qty += amount;
+  } else {
+    const newItem = {
+      id: Date.now(),
+      text: ingredient,
+      qty: amount,
+      checked: false
+    };
+    shoppingList.push(newItem);
+  }
+  
+  saveShoppingList();
+  renderShoppingList();
+  alert(`Added ${amount} ${ingredient} to your shopping list!`);
 }
 
 
+// most bought
+function updatePurchaseHistory(itemName) {
+  const key = itemName.toLowerCase().trim();
+  itemPurchaseHistory[key] = (itemPurchaseHistory[key] || 0) + 1;
+  localStorage.setItem("itemPurchaseHistory", JSON.stringify(itemPurchaseHistory));
+  renderTopItems();
+}
+
+function renderTopItems() {
+  const container = document.getElementById("topItemsContainer");
+  container.innerHTML = "";
+
+  const sortedItems = Object.entries(itemPurchaseHistory)
+    .sort(([, countA], [, countB]) => countB - countA)
+    .slice(0, 3);
+
+  if (sortedItems.length === 0) {
+    container.innerHTML = "<span class_='empty-list'>Buy items to see your top 3!</span>";
+    return;
+  }
+
+  sortedItems.forEach(([name]) => {
+    const displayName = name.charAt(0).toUpperCase() + name.slice(1);
+    const button = document.createElement("button");
+    button.className = "top-item-btn";
+    button.innerHTML = `<i class="fas fa-plus"></i> ${displayName}`;
+    button.onclick = () => newElement(displayName);
+    container.appendChild(button);
+  });
+}
+
+
+// shopping preset
+function updatePresetDropdown() {
+  const select = document.getElementById("presetSelect");
+  select.innerHTML = '<option value="">Select Preset</option>'; // Clear old options
+  
+  Object.keys(shoppingPresets).forEach(name => {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    select.appendChild(option);
+  });
+}
+
+function saveCurrentListAsPreset() {
+  const input = document.getElementById("presetNameInput");
+  const name = input.value.trim();
+  
+  if (!name) {
+    alert("Please enter a name for your preset.");
+    return;
+  }
+  
+  if (shoppingList.length === 0) {
+    alert("Cannot save an empty list as a preset.");
+    return;
+  }
+  
+  shoppingPresets[name] = [...shoppingList];
+  localStorage.setItem("shoppingPresets", JSON.stringify(shoppingPresets));
+  
+  updatePresetDropdown();
+  input.value = "";
+  alert(`Preset "${name}" saved!`);
+}
+
+function loadSelectedPreset() {
+  const select = document.getElementById("presetSelect");
+  const name = select.value;
+  
+  if (!name) {
+    alert("Please select a preset to load.");
+    return;
+  }
+  
+  if (confirm(`This will replace your current list with the "${name}" preset. Are you sure?`)) {
+    shoppingList = shoppingPresets[name].map(item => ({
+      ...item,
+      id: Date.now() + Math.random() // new ID
+    }));
+    
+    saveShoppingList();
+    renderShoppingList();
+  }
+}
 
 
 // ------------- Pantry Ingredients ------------- //
@@ -774,6 +990,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateInsights();
   linkInsights();
   initProfileForm();
+  loadAllShoppingData();
 });
 
 // Refresh when the user navigates back to insights
