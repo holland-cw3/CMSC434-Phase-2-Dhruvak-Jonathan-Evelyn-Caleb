@@ -548,12 +548,12 @@ function showAddIngredientModal() {
     <div class="ingredient-card-add-edit">
       <div class="ingredient-card-add-edit-inner">
         <h3 style="margin-top: 0;">Add New Ingredient</h3>
-        <input type="text" class="modalName" placeholder="Name">
-        <input type="date" class="modalDate">
-        <input type="text" class="modalAmount" placeholder="Amount (e.g., 2 pounds)">
+        <input type="text" id="modalName" class="modalName" placeholder="Name">
+        <input type="date" id="modalDate" class="modalDate">
+        <input type="text" id="modalAmount" class="modalAmount" placeholder="Amount (e.g., 2 pounds)">
         <div style="display: flex; gap: 10px; margin-top: 15px;">
-          <button class="modalCancel">Cancel</button>
-          <button class="modalSave">Add</button>
+          <button id="modalCancel" class="modalCancel">Cancel</button>
+          <button id="modalAdd" class="modalSave">Add</button>
         </div>
       </div>
     </div>
@@ -591,7 +591,7 @@ function showAddIngredientModal() {
   };
   
   modal.onclick = function(e) {
-    if (e.target === modal.firstElementChild.parentElement) {
+    if (e.target === modal.querySelector('.ingredient-card-add-edit')) {
       document.body.removeChild(modal);
     }
   };
@@ -605,12 +605,12 @@ function showEditIngredientModal(index) {
     <div class="ingredient-card-add-edit">
       <div class="ingredient-card-add-edit-inner">
         <h3 style="margin-top: 0;">Edit Ingredient</h3>
-        <input type="text" class="modalName" placeholder="Name" value="${ingredient.name}">
-        <input type="date" class="modalDate" value="${ingredient.expiration.toISOString().split('T')[0]}">
-        <input type="text" class="modalAmount" placeholder="Amount (e.g., 2 pounds)" value="${ingredient.amount}">
+        <input type="text" id="modalName" class="modalName" placeholder="Name" value="${ingredient.name}">
+        <input type="date" id="modalDate" class="modalDate" value="${ingredient.expiration.toISOString().split('T')[0]}">
+        <input type="text" id="modalAmount" class="modalAmount" placeholder="Amount (e.g., 2 pounds)" value="${ingredient.amount}">
         <div style="display: flex; gap: 10px; margin-top: 15px;">
-          <button class="modalCancel">Cancel</button>  
-          <button class="modalSave">Save</button>
+          <button id="modalCancel" class="modalCancel">Cancel</button>  
+          <button id="modalSave" class="modalSave">Save</button>
         </div>
       </div>
     </div>
@@ -648,7 +648,7 @@ function showEditIngredientModal(index) {
   };
   
   modal.onclick = function(e) {
-    if (e.target === modal.firstElementChild.parentElement) {
+    if (e.target === modal.querySelector('.ingredient-card-add-edit')) {
       document.body.removeChild(modal);
     }
   };

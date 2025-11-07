@@ -161,6 +161,11 @@ body {
     margin: 10px 4px;
 }
 
+#searchIngredient{
+   flex: 1; 
+   min-width: 0;
+}
+
 .ingredient-card-add-edit {
    position: fixed; 
    top: 0; 
@@ -182,7 +187,7 @@ body {
    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.modalName .modalDate .modalAmount{
+.modalName, .modalDate, .modalAmount{
    width: 100%; margin: 10px 0; padding: 8px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 4px;
 }
 
@@ -196,21 +201,11 @@ body {
 
 #addIngredient {
    display: flex;
-   justify-content: flex-end;
-   
+   justify-content: space-between;
+   align-items: center;
+   gap: 10px;
+   width: 100%;
 }
-/* #addIngredientBtn {
-   padding: 15px 32px;
-   text-align: center;
-   text-decoration: none;
-   display: inline-block;
-   font-size: 20px;
-   border-radius: 5px;
-   border: 1px solid #9c9b9b;
-   background-color:  rgb(253, 253, 253);
-   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-} */
 
 /* Recipe Search Tab */
 .recipe-search {
@@ -513,17 +508,17 @@ select:focus {
 
 .addButton {
    border-radius: 5px;
-   display: block; 
-   margin-left: auto;
    background-color: #7469de;
    border: 1px solid rgb(120, 110, 217);
    box-shadow: rgba(0, 0, 0, 0.7) 2.4px 2.4px 3.2px;
-   padding: 15px 20px 15px 20px;
+   padding: 15px 20px;
    font-size: 20px;
    font-weight: bold;
    color: white;
+   cursor: pointer;
+   white-space: nowrap; 
+   flex-shrink: 0; 
 }
-
 
 .qty-controls {
    display: inline-flex;
