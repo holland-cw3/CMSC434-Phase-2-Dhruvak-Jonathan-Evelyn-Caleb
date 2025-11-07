@@ -317,7 +317,6 @@ body {
    margin-right: .5vw;
 }
 
-
 .recipe-header {
    display: flex;
    justify-content: space-between;
@@ -387,13 +386,23 @@ body {
    display: block;
    font-size: 20px;
    margin-bottom: 2vh;
+   display: flex;
+   align-items: center;
+   gap: 6px;
+}
+
+.checkbox-item input[type="checkbox"] {
+  transform: scale(1.5);
+  margin-right: .5vw;
 }
 
 .save-status {
-   margin-top: 4px;
-   font-size: 14px;
-   color: green;
+   margin-top: 1vh;
+   font-size: 22px;
+   color: rgb(5, 176, 5);
    min-height: 16px;
+   font-weight: bold;
+   align-self: center;
 }
 
 /* Recipe Search Tab */
@@ -402,7 +411,6 @@ body {
    flex-direction: row;
    align-items: center;
 }
-
 
 #recipeCards {
    min-height: 90vh;
@@ -490,22 +498,6 @@ body {
    margin-left: 1vw;
    font-size: 24px;
 }
-
-
-.info-item {
-   display: flex;
-   align-items: center;
-   font-size: 20px;
-   color: #333;
-   margin-bottom: 1vh;
-}
-
-.info-item i {
-   color: #787879;
-   font-size: 20px;
-   margin-right: .5vw;
-}
-
 
 .recipe-header {
    display: flex;
@@ -675,16 +667,6 @@ select:focus {
    gap: 8px 16px;
 }
 
-.checkbox-item {
-   display: flex;
-   align-items: center;
-   gap: 6px;
-}
-
-.checkbox-item input[type="checkbox"] {
-  transform: scale(1.5);
-  margin-right: .5vw;
-}
 
 .save-btn{
    margin-top: -5vh;
