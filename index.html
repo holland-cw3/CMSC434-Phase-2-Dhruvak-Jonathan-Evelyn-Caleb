@@ -45,7 +45,18 @@
       <div class="tabHeader" onclick="closeKeyboard()">
         Pantry
       </div>
-      <div id="ingredientCards"></div>
+      <div id="addIngredient" class="recipeSearch">
+        <input type="text" id="searchIngredient", placeholder="Search" onclick="openKeyboard()">
+        <button id="addIngredientBtn"> Add Item </button>
+        <select id="ingredientFilter" placeholder="Sort By">
+          <option value="">Sort By</option>
+          <option value="Expiration">Expiration</option>
+          <option value="A-Z">A-Z</option>
+          <option value="Quantity">Quantity</option>
+        </select>
+      </div>
+      
+      <div id="ingredientCards" onclick="closeKeyboard()"></div>
 
     </div>
 
