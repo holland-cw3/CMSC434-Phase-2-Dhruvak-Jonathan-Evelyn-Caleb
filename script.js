@@ -475,7 +475,7 @@ function ingredientCard(name, expiration, amount, index) {
 
   return `
     <div class="ingredient-card" onclick="showEditIngredientModal(${index})" style="cursor: pointer; position: relative;">
-      <button onclick="event.stopPropagation(); deleteIngredient(${index})" style="position: absolute; top: 10px; right: 10px; background: #f44336; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-weight: bold; font-size: 16px; line-height: 1;">×</button>
+      <button onclick="event.stopPropagation(); deleteIngredient(${index})" style="position: absolute; top: 10px; right: 10px; background: #afaaaaff; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-weight: bold; font-size: 24px; line-height: 1;">×</button>
       <h3>${name}</h3>
       <p>${expirationText}</p>
       <p>Quantity: ${amount}</p>
@@ -504,12 +504,12 @@ function showAddIngredientModal() {
     <div class="ingredient-card-add-edit">
       <div class="ingredient-card-add-edit-inner">
         <h3 style="margin-top: 0;">Add New Ingredient</h3>
-        <input type="text" id="modalName" placeholder="Name">
-        <input type="date" id="modalDate">
-        <input type="text" id="modalAmount" placeholder="Amount (e.g., 2 pounds)">
+        <input type="text" class="modalName" placeholder="Name">
+        <input type="date" class="modalDate">
+        <input type="text" class="modalAmount" placeholder="Amount (e.g., 2 pounds)">
         <div style="display: flex; gap: 10px; margin-top: 15px;">
-          <button id="modalCancel">Cancel</button>
-          <button id="modalSave">Add</button>
+          <button class="modalCancel">Cancel</button>
+          <button class="modalSave">Add</button>
         </div>
       </div>
     </div>
@@ -561,12 +561,12 @@ function showEditIngredientModal(index) {
     <div class="ingredient-card-add-edit">
       <div class="ingredient-card-add-edit-inner">
         <h3 style="margin-top: 0;">Edit Ingredient</h3>
-        <input type="text" id="modalName" placeholder="Name" value="${ingredient.name}">
-        <input type="date" id="modalDate" value="${ingredient.expiration.toISOString().split('T')[0]}">
-        <input type="text" id="modalAmount" placeholder="Amount (e.g., 2 pounds)" value="${ingredient.amount}">
+        <input type="text" class="modalName" placeholder="Name" value="${ingredient.name}">
+        <input type="date" class="modalDate" value="${ingredient.expiration.toISOString().split('T')[0]}">
+        <input type="text" class="modalAmount" placeholder="Amount (e.g., 2 pounds)" value="${ingredient.amount}">
         <div style="display: flex; gap: 10px; margin-top: 15px;">
-          <button id="modalCancel">Cancel</button>  
-          <button id="modalSave">Save</button>
+          <button class="modalCancel">Cancel</button>  
+          <button class="modalSave">Save</button>
         </div>
       </div>
     </div>
@@ -616,8 +616,6 @@ function deleteIngredient(index) {
     displayIngredients(ingredients);
   }
 }
-
-document.getElementById("addIngredientBtn").addEventListener("click", showAddIngredientModal);
 
 //filtering
 const ingredientFilter = document.getElementById('ingredientFilter');
