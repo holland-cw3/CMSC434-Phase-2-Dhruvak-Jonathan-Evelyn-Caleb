@@ -563,7 +563,6 @@ select:focus {
    gap: 8px 16px;
 }
 
-
 .save-btn{
    margin-top: -5vh;
    font-size: 22px;
@@ -625,12 +624,26 @@ select:focus {
 
 .top-items-section {
   margin-bottom: 20px;
+
 }
+
+.top-items-section h3 {
+  font-size: 30px;
+
+}
+
+
 .top-items-container {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
+
+.top-items-container span {
+  
+  font-size: 20px;
+}
+
 .top-item-btn {
   background: #e0e0e0;
   border: 1px solid #ccc;
@@ -653,6 +666,11 @@ select:focus {
   padding-top: 20px;
   margin-bottom: 20vh;
 }
+
+.preset-section h3 {
+  font-size: 30px;
+}
+
 .preset-controls {
   gap: 10px;
   width: 100%;
