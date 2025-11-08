@@ -735,7 +735,7 @@ function ingredientCard(name, expiration, amount, index) {
 
   return `
     <div class="ingredient-card" onclick="showEditIngredientModal(${index})" style="cursor: pointer; position: relative;">
-      <button onclick="event.stopPropagation(); deleteIngredient(${index})" style="position: absolute; top: 10px; right: 10px; background: #afaaaaff; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-weight: bold; font-size: 24px; line-height: 1;">×</button>
+      <button onclick="event.stopPropagation(); deleteIngredient(${index})" style="position: absolute; top: 10px; right: 10px; background: #afaaaaff; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-weight: bold; font-size: 24px; line-height: 1;">x</button>
       <h3>${name}</h3>
       <p>${expirationText}</p>
       <p>Quantity: ${amount}</p>
