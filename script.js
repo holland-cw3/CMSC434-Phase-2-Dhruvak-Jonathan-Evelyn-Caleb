@@ -217,6 +217,8 @@ recipes = [
   },
 ]
 
+displayed_recipes = filterRecipes([...recipes])
+
 // Like a recipe/give a heart
 function likeRecipe(index) {
   document.querySelectorAll('#heart')[index].style.color = document.querySelectorAll('#heart')[index].style.color == "red"? "#787879" : "red"
@@ -263,7 +265,6 @@ function recipeCardsStr(recipes){
   return recipeCards
 }
 
-
 function recipeCard(name, ingredients, time, difficulty, src, calories, index) {
   ingredients = ingredients.length >= 3 ? ingredients.slice(0, 3).join(', ') + '...' : ingredients = ingredients.join(', ');
   return `
@@ -283,14 +284,15 @@ function recipeCard(name, ingredients, time, difficulty, src, calories, index) {
             <i class="fas fa-bolt recipe-icon"></i> ${calories} Cal.
           </div>
         </div>
-        <button class="btn" onclick="focusedRecipe(${index})">See Recipe</button>
+        <button class="btn" onclick='focusedRecipe(${index})'>See Recipe</button>
+
       </div>
     </div>
   `;
 }
 
 function focusedRecipe(index) {
-  const recipe = recipes[index];
+  let recipe = displayed_recipes[index]
 
   document.getElementById("currentRecipe").innerHTML = `
 
@@ -299,7 +301,7 @@ function focusedRecipe(index) {
       <div class="focusedRecipe-img" style="background-image: url('${recipe.img_src}');"></div>
       <div class="recipe-icons">
         <div><i class="fas fa-clock recipe-icon"></i> ${recipe.time} - ${recipe.calories} calories</div>
-        <div class="icon-actions"><i class="fas fa-heart recipe-icon" id='heart' onclick="console.log(${index})"></i><i class="fas fa-share-alt recipe-icon"></i></div>
+        <div class="icon-actions"><i class="fas fa-heart recipe-icon" id='heart'></i><i class="fas fa-share-alt recipe-icon"></i></div>
       </div>
       <h2>Ingredients</h2>
       <ul class="focused-ingredients">
@@ -329,8 +331,8 @@ function focusedRecipe(index) {
   openTab('focusedRecipe');
 }
 
-let filteredRecipes = filterRecipes(recipes)
-document.getElementById("recipeCards").innerHTML = recipeCardsStr(filteredRecipes);
+displayed_recipes = filterRecipes(recipes)
+document.getElementById("recipeCards").innerHTML = recipeCardsStr(displayed_recipes);
 
 // Recipe Filter On Search
 const inputField = document.getElementById("recipeSearch");
@@ -338,9 +340,9 @@ const inputField = document.getElementById("recipeSearch");
 inputField.addEventListener("input", (event) => {
   const value = event.target.value.toLowerCase().trim();
 
-  let filteredRecipes = filterRecipes(recipes)
+  displayed_recipes = filterRecipes(recipes)
 
-  filteredRecipes = filteredRecipes.filter(recipe => {
+  displayed_recipes = displayed_recipes.filter(recipe => {
     const combined = (
       recipe.name + " " +
       recipe.ingredients.join(", ") + " " +
@@ -352,7 +354,7 @@ inputField.addEventListener("input", (event) => {
   });
 
 
-  let recipeCards = recipeCardsStr(filteredRecipes)
+  let recipeCards = recipeCardsStr(displayed_recipes)
   
   if (recipeCards === "") {
     recipeCards = "<h3 class='notfound'>No recipes found</h3>"
@@ -368,12 +370,12 @@ filter.addEventListener('change', (event) => {
   let recipeCards = ``;
   let new_recipes = []
 
-  let filteredRecipes = filterRecipes(recipes)
+  displayed_recipes = filterRecipes(recipes)
 
-  if (selected == 'Diff') new_recipes = filteredRecipes.sort((a, b) => a.difficulty_num - b.difficulty_num);
-  else if (selected == 'Time') new_recipes = filteredRecipes.sort((a, b) => a.time_min - b.time_min);
-  else if (selected == 'Cals') new_recipes = filteredRecipes.sort((a, b) => a.calories - b.calories);
-  else new_recipes = filteredRecipes
+  if (selected == 'Diff') new_recipes = displayed_recipes.sort((a, b) => a.difficulty_num - b.difficulty_num);
+  else if (selected == 'Time') new_recipes = displayed_recipes.sort((a, b) => a.time_min - b.time_min);
+  else if (selected == 'Cals') new_recipes = displayed_recipes.sort((a, b) => a.calories - b.calories);
+  else new_recipes = displayed_recipes
 
   document.getElementById("recipeCards").innerHTML = recipeCardsStr(new_recipes);
 });
